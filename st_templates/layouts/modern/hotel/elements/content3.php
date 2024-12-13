@@ -20,7 +20,7 @@ if(empty($layout))
         <?php echo st()->load_template('layouts/modern/common/loader', 'content'); ?>
         <?php
         if($style == 'grid'){
-          echo '<div class="service-list-wrapper row">';
+          echo '<div class="row row-wrapper">';
         }else{
             echo '<div class="style-list">';
         }
@@ -29,12 +29,7 @@ if(empty($layout))
         if($query->have_posts()) {
             while ($query->have_posts()) {
                 $query->the_post();
-                if(check_using_elementor()){
-                    echo st()->load_template('layouts/elementor/hotel/loop/grid', '', array('item_row'=> 3));
-                } else {
-                    echo st()->load_template('layouts/modern/hotel/elements/loop/normal', $style);
-                }
-                
+                echo st()->load_template('layouts/modern/hotel/elements/loop/normal', $style);
             }
         }else{
             echo ($style == 'grid') ? '<div class="col-xs-12">' : '';

@@ -14,18 +14,18 @@ if (!$position_currency_symbol) {
 }
 if (isset($packages) && !empty($packages)) {
 	foreach ($packages as $key => $pack) {
-		if (!empty($pack->package_name)) {
+		if (isset($pack->package_name)) {
 			$package_name =  $pack->package_name;
 		} else {
 			$package_name =  "";
 		}
-		if (!empty($pack->package_name)) {
+		if (isset($pack->package_name)) {
 			$package_price =  $pack->package_price;
 		} else {
 			$package_price =  0;
 		}
 
-		if (!empty($pack->package_time)) {
+		if (isset($pack->package_time)) {
 			$package_time =  $pack->package_time;
 		} else {
 			$package_time =  0;
@@ -37,7 +37,7 @@ if (isset($packages) && !empty($packages)) {
 		<div class="item-st">
 			<div class="icon-table">
 				<?php
-				if (!empty($image_src) && !empty($image_src)) { ?>
+				if (isset($image_src) && !empty($image_src)) { ?>
 					<img src="<?php echo esc_url($image_src[0]); ?>" alt="">
 				<?php }
 				?>
@@ -48,7 +48,7 @@ if (isset($packages) && !empty($packages)) {
 			<div class="price">
 				<span class="price">
 					<?php
-					if (!empty($position_currency_symbol) && $position_currency_symbol == 'right' or $position_currency_symbol == 'right_space') :?>
+					if (isset($position_currency_symbol) && $position_currency_symbol == 'right' or $position_currency_symbol == 'right_space') :?>
 						<span class="currency"><?php echo esc_attr(TravelHelper::convert_money($package_price)); ?></span>
 						<span class="sign"><?php echo esc_attr($curency_symbol) ?></span>
 					<?php
@@ -77,7 +77,7 @@ if (isset($packages) && !empty($packages)) {
 			</div>
 			<div class="button-get">
 				<div class="clearfix">
-					<form action="#" method="post">
+					<form action="" method="post">
 						<input type="hidden" name="package_new" value="<?php echo esc_attr($pack->id); ?>">
 						<input type="hidden" name="iconpackage_new" value="<?php echo esc_url($icon); ?>">
 						<input type="hidden" name="package_encrypt_new" value="<?php echo TravelHelper::st_encrypt($pack->id); ?>">

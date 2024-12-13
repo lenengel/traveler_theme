@@ -14,8 +14,8 @@
         ?>
         <div class="service-section">
             <div class="service-left">
-                <h3 class="title"><a
-                            href="<?php echo get_permalink( $hotel ) ?>"><?php echo get_the_title( $hotel ) ?></a></h3>
+                <h4 class="title"><a
+                            href="<?php echo get_permalink( $hotel ) ?>"><?php echo get_the_title( $hotel ) ?></a></h4>
                 <?php
                     $address = get_post_meta( $room_id, 'address', true );
                     if ( $address ):
@@ -78,18 +78,7 @@
                         <?php } ?>
                     </ul>
                 </li>
-                <?php
-                $check_extra = false;
-                if(!empty($extras["value"]) && is_array(array_values($extras["value"]))){
-                    foreach(array_values($extras["value"]) as $value_number){
-                        if($value_number > 0){
-                            $check_extra = true;
-                            break;
-                        }
-                    }
-                }
-
-                if($check_extra) : ?>
+                <?php if ( isset( $extras[ 'value' ] ) && is_array( $extras[ 'value' ] ) && count( $extras[ 'value' ] ) ): ?>
                     <li>
                         <span class="label"><?php echo __( 'Extra', 'traveler' ); ?></span>
                     </li>
@@ -202,7 +191,7 @@
                 ?>
                 <li><span class="label"><?php echo __( 'Subtotal', 'traveler' ); ?></span><span
                             class="value"><?php echo TravelHelper::format_money( $sale_price ); ?></span></li>
-                    <?php if($check_extra) : ?>
+                <?php if ( isset( $extras[ 'value' ] ) && is_array( $extras[ 'value' ] ) && count( $extras[ 'value' ] ) && isset( $item[ 'data' ][ 'extra_price' ] ) ): ?>
                     <li>
                         <span class="label"><?php echo __( 'Extra Price', 'traveler' ); ?></span>
                         <span class="value"><?php echo TravelHelper::format_money( $extra_price ); ?></span>

@@ -1,7 +1,7 @@
 <div class="content-section">
 	<h4 class="heading"><?php echo esc_html($st_title); ?></h4>
 	<div class="line-heading bgr-main"></div>
-	<form action="#" class="form form-availability-style3">
+	<form action="" class="form form-availability-style3">
 	<div class="row">
 		<div class="col-xs-6 col-sm-4 col-lg-2">
 			<div class="form-group">

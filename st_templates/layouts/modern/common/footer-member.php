@@ -13,7 +13,7 @@
         ?>
         <footer id="main-footer" class="container-fluid">
             <div class="container text-center">
-                <p><?php echo sprintf(__('Copy &copy; %s Shinetheme. All Rights Reserved', 'traveler'),date("Y")); ?></p>
+                <p><?php _e( 'Copy &copy; 2014 Shinetheme. All Rights Reserved', 'traveler' ) ?></p>
             </div>
 
         </footer>
@@ -26,12 +26,11 @@
                         class="st-link"><?php bloginfo( 'name' ) ?></a></div>
         </div>
         <div class="right mt20">
-            <img width="240" height="40" src="<?php echo get_template_directory_uri() ?>/v2/images/svg/ico_paymethod.svg" alt="<?php echo esc_attr__('Trust badges','traveler');?>"
-                 class="img-responsive st_trustbase">
+            <img src="<?php echo get_template_directory_uri() ?>/v2/images/svg/ico_paymethod.svg" alt=""
+                 class="img-responsive">
         </div>
     </div>
 </div>
 <?php wp_footer(); ?>
-<?php do_action('st_after_footer');?>
 </body>
 </html>

@@ -16,6 +16,7 @@
         <meta charset="<?php bloginfo( 'charset' ); ?>">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=2, minimum-scale=1">
         <meta name="theme-color" content="<?php echo st()->get_option( 'main_color', '#ED8323' ); ?>"/>
+        <meta name="robots" content="follow"/>
         <meta http-equiv="x-ua-compatible" content="IE=edge">
         <?php if ( defined( 'ST_TRAVELER_VERSION' ) ) { ?>
             <meta name="traveler" content="<?php echo esc_attr( ST_TRAVELER_VERSION ) ?>"/>  <?php }; ?>
@@ -50,8 +51,6 @@
 <?php
     $class = '';
     $class .= ' home';
-	$menu_style = st()->get_option('menu_style_modern', 1);
-    $class .= ' st-header-' . $menu_style;
 ?>
 <body <?php body_class($class); ?>>
     <?php echo st()->load_template( 'layouts/modern/common/header/member', '1' ); ?>

@@ -25,7 +25,7 @@
         }
     ?>
     <div class="dropdown" data-toggle="dropdown" id="dropdown-destination">
-        <label><?php echo __( 'Destination', 'traveler' ); ?></label>
+    <label><?php echo __( 'Destination', 'traveler' ); ?></label>
         <div class="render">
             <?php
                 if(empty($location_name)) {
@@ -34,15 +34,15 @@
                     $placeholder = esc_html($location_name);
                 }
             ?>
-            <input type="text" autocomplete = "off" onkeyup="stKeyupsmartSearch(this)" id="location_name" name="location_name" value="<?php echo esc_attr($location_name); ?>" placeholder = "<?php echo esc_attr($placeholder);?>" />
+            <input type="text" touchend="stKeyupsmartSearch(this)" autocomplete = "off" onkeyup="stKeyupsmartSearch(this)" id="location_name" name="location_name" value="<?php echo esc_attr($location_name); ?>" placeholder = "<?php echo esc_attr($placeholder);?>" />
         </div>
-
+        
         <input type="hidden" name="location_id" value="<?php echo esc_attr($location_id); ?>"/>
     </div>
     <ul class="dropdown-menu" id="dropdown_destination" aria-labelledby="dropdown-destination">
         <?php
             if ( $enable_tree == 'on' ) {
-                New_Layout_Helper::buildTreeOptionLocation( $locations, $location_id, '', true );
+                New_Layout_Helper::buildTreeOptionLocation( $locations, $location_id );
             } else {
                 if ( is_array( $locations ) && count( $locations ) ):
                     foreach ( $locations as $key => $value ):

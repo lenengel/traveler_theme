@@ -1,6 +1,6 @@
 <div class="sidebar-item pag st-icheck">
     <div class="item-title">
-        <label><?php echo esc_html($title); ?></label>
+        <h4><?php echo esc_html($title); ?></h4>
         <i class="fa fa-angle-up" aria-hidden="true"></i>
     </div>
     <div class="item-content">

@@ -11,7 +11,9 @@ $footer_template = TravelHelper::st_get_template_footer(get_the_ID(), true);
 if ($footer_template) {
     $vc_content = STTemplate::get_vc_pagecontent($footer_template);
     if ($vc_content) {
-        echo '<footer id="main-footer" class="clearfix '. esc_attr($footer_class) .' ">';
+        echo '<div class="back-to-top" style="text-align: center;padding: 15px;">';
+		echo '<a href="#" class="topbutton"><i class="fa fa-arrow-circle-up" aria-hidden="true" style="font-size: 32px; color: #999;"></i></a><br> nach oben</div>';
+		echo '<footer id="main-footer" class="clearfix'. esc_attr($footer_class) .' ">';
         echo balanceTags($vc_content);
         echo ' </footer>';
     }
@@ -19,7 +21,7 @@ if ($footer_template) {
     ?>
     <footer id="main-footer" class="container-fluid">
         <div class="container text-center">
-            <p><?php echo sprintf(__('Copy &copy; %s Shinetheme. All Rights Reserved', 'traveler'),date("Y")); ?></p>
+            <p><?php _e('Copy &copy; 2014 Shinetheme. All Rights Reserved', 'traveler') ?></p>
         </div>
 
     </footer>
@@ -33,11 +35,14 @@ if ($footer_template) {
         <div class="st-flex space-between">
             <div class="left mt20">
                 <div class="f14">
+					
                     <?php
                     if (empty($copyright)) {
                         echo sprintf( esc_html__( 'Copyright © %s by', 'traveler' ), date( 'Y' ) ); ?> <a
                             href="<?php echo esc_url( home_url( '/' ) ) ?>"
-                            class="st-link"><?php bloginfo( 'name' ) ?></a>
+                            class="st-link"><?php bloginfo( 'name' ) ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<a href="<?php echo esc_url( home_url( '/impressum' ) ) ?>" class="st-link">Impressum & Datenschutz</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+							<a href="<?php echo esc_url( home_url( '/wp-content/uploads/2021/08/agb_gluexplatzl.pdf' ) ) ?>" target="_blank" class="st-link">AGB</a>
                         <?php
                     } else {
                         echo wp_kses($copyright, array('p' => ['class' => []], 'a' => ['class' => [], 'href' => []], 'br' => [], 'em' => [], 'strong' => []));
@@ -53,8 +58,8 @@ if ($footer_template) {
                     if (isset($thumb_card_accept[0]) && !empty($thumb_card_accept[0])) {
                         $class = Assets::build_css('height: 40px');
                         ?>
-                        <img width="240" height="40" src="<?php echo esc_url($card_accept) ?>" alt="<?php echo esc_attr__('Trust badges','traveler');?>"
-                            class="img-responsive st_trustbase <?php echo esc_attr($class) ?>">
+                        <img src="<?php echo esc_url($thumb_card_accept[0]) ?>" alt=""
+                            class="img-responsive <?php echo esc_attr($class) ?>">
                         <?php
                     }
                 } ?>
@@ -76,6 +81,24 @@ echo st()->load_template('layouts/modern/common/resetPasswordForm', '');
 <?php do_action('stt_compare_link'); ?>
 <?php do_action('stt_compare_popup'); ?>
 <?php wp_footer(); ?>
-<?php do_action('st_after_footer');?>
+<script>
+/*
+$(function() {
+    var offset = 100;
+    var speed = 250;
+    var duration = 500;
+        $(window).scroll(function(){
+            if ($(this).scrollTop() < offset) {
+                      $('.topbutton') .fadeOut(duration);
+            } else {
+                      $('.topbutton') .fadeIn(duration);
+            }
+        });
+     $('.topbutton').on('click', function(){
+            $('html, body').animate({scrollTop:0}, speed);
+            return false;
+            });
+})();*/
+</script>
 </body>
 </html>

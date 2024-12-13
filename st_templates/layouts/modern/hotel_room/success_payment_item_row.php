@@ -12,7 +12,7 @@
 $order_token_code = STInput::get('order_token_code');
 
 if($order_token_code){
-    $order_code = STOrder::get_order_id_by_token($order_token_code)->post_id;
+    $order_code = STOrder::get_order_id_by_token($order_token_code);
 }
 
 $hotel_id = $key;
@@ -42,7 +42,7 @@ $currency = get_post_meta($order_code, 'currency', true);
 ?>
 <div class="service-section">
     <div class="service-left">
-        <h3 class="title"><a href="<?php echo esc_url($room_link)?>"><?php echo get_the_title($room_id); ?></a></h3>
+        <h4 class="title"><a href="<?php echo esc_url($room_link)?>"><?php echo get_the_title($room_id); ?></a></h4>
         <?php
         $address = get_post_meta($room_id,'address',true);
         if($address){
@@ -70,10 +70,13 @@ $currency = get_post_meta($order_code, 'currency', true);
         $extras = get_post_meta($order_code, 'extras', true);
         if(isset($extras['value']) && is_array($extras['value']) && count($extras['value'])):
         ?>
+            <li><span class="label"><?php echo __('Extra:', 'traveler'); ?></span>
+                <span class="value">
 
+                </span>
+            </li>
             <li class="extra-value">
                 <?php
-                    $count_extra = 0;
                     foreach ($extras['value'] as $name => $number):
                         $price_item = floatval($extras['price'][$name]);
                         if ($price_item <= 0) $price_item = 0;
@@ -81,17 +84,11 @@ $currency = get_post_meta($order_code, 'currency', true);
                         if ($number_item <= 0) $number_item = 0;
                         if ($number_item > 0) {
                             ?>
-                        <?php
-                            if($count_extra==0){?>
-                                <span class="label"><?php echo __('Extra:', 'traveler'); ?></span>
-                            <?php }
-                        ?>
-                        <span>
-                            <?php echo esc_html($extras['title'][$name]) . ' (' . TravelHelper::format_money($price_item) . ') x ' . esc_attr($number_item) . ' ' . __('Item(s)', 'traveler'); ?>
-                        </span> <br/>
+                            <span>
+                    <?php echo esc_html($extras['title'][$name]) . ' (' . TravelHelper::format_money($price_item) . ') x ' . esc_attr($number_item) . ' ' . __('Item(s)', 'traveler'); ?>
+                </span> <br/>
                             <?php
                         }
-                        $count_extra++;
                     endforeach;
                 ?>
             </li>

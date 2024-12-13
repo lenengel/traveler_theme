@@ -18,7 +18,7 @@ if($style == 'style-2'){
     ?>
     <span class="icon"><i class="<?php echo esc_attr($icon)?>"></i></span>
     <div class="right">
-        <h3 class="title"><?php echo esc_attr($title)?></h3>
+        <h4 class="title"><?php echo esc_attr($title)?></h4>
         <span class="content"><?php echo do_shortcode($content)?></span>
     </div>
 <?php

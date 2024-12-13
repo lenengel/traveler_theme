@@ -13,16 +13,11 @@ if(isset($item_id) and $item_id):
     $adult_number = intval($item['data']['adult_number']);
     $child_number = intval($item['data']['child_number']);
     $discount_rate = isset($item['data']['discount_rate']) ? $item['data']['discount_rate'] : '';
-    $discount_type = get_post_meta($room_id, 'discount_type', true);
+    $discount_type = get_post_meta($item_id, 'discount_type', true);
 ?>
-
-<div class="loader-wrapper">
-	<div class="st-loader"></div>
-</div>
-
 <div class="service-section">
     <div class="service-left">
-        <h3 class="title"><a href="<?php echo get_permalink($hotel)?>"><?php echo get_the_title($hotel)?></a></h3>
+        <h4 class="title"><a href="<?php echo get_permalink($hotel)?>"><?php echo get_the_title($hotel)?></a></h4>
         <?php
         $address = get_post_meta( $item_id, 'address', true);
         if( $address ):
@@ -86,16 +81,28 @@ if(isset($item_id) and $item_id):
                 <?php } ?>
             </ul>
         </li>
+        <?php if(isset($extras['value']) && is_array($extras['value']) && count($extras['value'])): ?>
+            <li>
+                <span class="label"><?php echo __('Extra', 'traveler'); ?></span>
+            </li>
+            <li class="extra-value">
+                    <?php
+                    foreach ($extras['value'] as $name => $number):
+                        $number_item = intval($extras['value'][$name]);
+                        if ($number_item <= 0) $number_item = 0;
+                        if ($number_item > 0):
+                            $price_item = floatval($extras['price'][$name]);
+                            if ($price_item <= 0) $price_item = 0;
+                            ?>
+                            <span class="pull-right">
+                            <?php echo esc_html($extras['title'][$name]) . ' (' . TravelHelper::format_money($price_item) . ') x ' . esc_html($number_item) . ' ' . __('Item(s)', 'traveler'); ?>
+                            </span> <br/>
+                        <?php endif;
+                    endforeach;
+                    ?>
+            </li>
+        <?php endif; ?>
         <?php
-        $check_extra = false;
-        if(!empty($extras["value"]) && is_array(array_values($extras["value"]))){
-            foreach(array_values($extras["value"]) as $value_number){
-                if($value_number > 0){
-                    $check_extra = true;
-                    break;
-                }
-            }
-        }
         if(isset($item['data']['deposit_money'])):
             $deposit      = $item['data']['deposit_money'];
             if(!empty($deposit['type']) and !empty($deposit['amount'])){
@@ -129,7 +136,7 @@ if(isset($item_id) and $item_id):
 <div class="coupon-section">
     <h5><?php echo __('Coupon Code', 'traveler'); ?></h5>
 
-    <div class="coupon-section-wrap">
+    <form method="post" action="<?php the_permalink() ?>">
         <?php if (isset(STCart::$coupon_error['status'])): ?>
             <div
                 class="alert alert-<?php echo STCart::$coupon_error['status'] ? 'success' : 'danger'; ?>">
@@ -148,10 +155,10 @@ if(isset($item_id) and $item_id):
                 <button type="submit" class="btn btn-primary add-coupon-ajax"><?php echo __('APPLY', 'traveler'); ?></button>
                 <div class="alert alert-danger hidden"></div>
             <?php }else{ ?>
-                <button type="submit" class="btn btn-primary coupon-ajax"><?php echo __('APPLY', 'traveler'); ?></button>
+                <button type="submit" class="btn btn-primary"><?php echo __('APPLY', 'traveler'); ?></button>
             <?php } ?>
         </div>
-	</div>
+    </form>
 </div>
 <div class="total-section">
     <?php
@@ -159,17 +166,17 @@ if(isset($item_id) and $item_id):
     $number_room = intval($item['number']);
     $numberday = STDate::dateDiff($check_in, $check_out);
     $origin_price = STPrice::getRoomPriceOnlyCustomPrice($room_id, strtotime($check_in), strtotime($check_out), $number_room, $adult_number, $child_number );
-    $sale_price = isset($item['data']['sale_price']) ? floatval($item['data']['sale_price']) : 0;
+    $sale_price = STPrice::getRoomPrice($room_id, strtotime($check_in), strtotime($check_out), $number_room, $adult_number, $child_number );
     $extra_price = isset($item['data']['extra_price']) ? floatval($item['data']['extra_price']) : 0;
     $price_coupon = floatval(STCart::get_coupon_amount());
-    $price_with_tax = STPrice::getPriceWithTax($sale_price + $extra_price );
+    $price_with_tax = STPrice::getPriceWithTax($sale_price + $extra_price);
     $price_with_tax -= $price_coupon;
     ?>
     <ul>
         <?php
         if ( !empty($discount_rate) && isset($discount_type) ) : ?>
             <li>
-                <span class="label"><?php echo __('Discount/Night', 'traveler'); ?></span>
+                <span class="label"><?php echo __('Discount', 'traveler'); ?></span>
                 <span class="value">
                     <?php
                     if($discount_type == 'amount'){
@@ -182,25 +189,14 @@ if(isset($item_id) and $item_id):
             <?php
         endif;
         ?>
-        <?php
-        $total_price_origin = floatval($item['data']['total_price_origin']);
-            if($total_price_origin > $sale_price){ ?>
-                <li>
-                    <span class="label"><?php echo __('Bulk Discount', 'traveler'); ?></span>
-                    <span class="value"> - <?php echo TravelHelper::format_money($total_price_origin - $sale_price); ?></span>
-                </li>
-            <?php }
-        ?>
         <li><span class="label"><?php echo __('Subtotal', 'traveler'); ?></span><span class="value"><?php echo TravelHelper::format_money($sale_price); ?></span></li>
-        <?php if($check_extra) : ?>
+        <?php if(isset($extras['value']) && is_array($extras['value']) && count($extras['value']) && isset($item['data']['extra_price'])): ?>
             <li>
                 <span class="label"><?php echo __('Extra Price', 'traveler'); ?></span>
                 <span class="value"><?php echo TravelHelper::format_money($extra_price); ?></span>
             </li>
         <?php endif; ?>
-        <?php if(STPrice::getTax() > 0){ ?>
-            <li><span class="label"><?php echo __('Tax', 'traveler'); ?></span><span class="value"><?php echo STPrice::getTax().' %'; ?></span></li>
-        <?php }?>
+        <li><span class="label"><?php echo __('Tax', 'traveler'); ?></span><span class="value"><?php echo STPrice::getTax().' %'; ?></span></li>
         <?php if (STCart::use_coupon()):
             if($price_coupon < 0) $price_coupon = 0;
             ?>
@@ -210,7 +206,7 @@ if(isset($item_id) and $item_id):
                     <?php if(st()->get_option('use_woocommerce_for_booking','off') == 'off' && st()->get_option('booking_modal','off') == 'on' ){ ?>
                         <a href="javascript: void(0);" title="" class="ajax-remove-coupon" data-coupon="<?php echo STCart::get_coupon_code(); ?>"><small class='text-color'>(<?php st_the_language('Remove coupon') ?> )</a>
                     <?php }else{ ?>
-                        <a href="<?php echo st_get_link_with_search(get_permalink(st()->get_option('page_checkout')), array('remove_coupon'), array('remove_coupon' => STCart::get_coupon_code())) ?>"
+                        <a href="<?php echo st_get_link_with_search(get_permalink(), array('remove_coupon'), array('remove_coupon' => STCart::get_coupon_code())) ?>"
                            class="danger"><small class='text-color'>(<?php st_the_language('Remove coupon') ?> )</small></a>
                     <?php } ?>
                 </span>
@@ -219,32 +215,7 @@ if(isset($item_id) and $item_id):
                 </span>
             </li>
         <?php endif; ?>
-        <?php if($check_extra) :
-        ?>
-            <li>
-                <span class="label"><?php echo __('Extra', 'traveler'); ?></span>
-            </li>
-            <li class="extra-value">
-                <div class="extra-prices">
-                    <?php
-                    foreach ($extras['value'] as $name => $number):
-                        $number_item = intval($extras['value'][$name]);
-						$extra_unit = get_post_meta($room_id, 'extra_price_unit', true);
-						$extra_unit_text = $extra_unit === 'perday' ? __( ' /Per day', 'traveler' ) : '';
-                        if ($number_item <= 0) $number_item = 0;
-                        if ($number_item > 0):
-                            $price_item = floatval($extras['price'][$name]);
-                            if ($price_item <= 0) $price_item = 0;
-                            ?>
-                            <span class="pull-right">
-                            <?php echo esc_html($extras['title'][$name]) . ' (' . TravelHelper::format_money($price_item) . ') x ' . esc_html($number_item) . ' ' . __('Item(s)', 'traveler') . esc_html( $extra_unit_text ); ?>
-                            </span> <br/>
-                        <?php endif;
-                    endforeach;
-                    ?>
-                </div>
-            </li>
-        <?php endif; ?>
+
         <?php
         if(isset($item['data']['deposit_money']) && count($item['data']['deposit_money']) && floatval($item['data']['deposit_money']['amount']) > 0):
 

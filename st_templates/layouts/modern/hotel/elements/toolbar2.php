@@ -48,7 +48,7 @@ if(in_array($post_type, array('st_tours', 'st_activity'))){
     </ul>
     <div class="dropdown-menu sort-menu sort-menu-mobile">
         <div class="sort-title">
-            <h3><?php echo __('SORT BY', 'traveler'); ?> <span class="d-md-none hidden-lg hidden-md close-filter"><?php echo TravelHelper::getNewIcon('Ico_close', '#A0A9B2', '20px', '20px'); ?></span></h3>
+            <h3><?php echo __('SORT BY', 'traveler'); ?> <span class="hidden-lg hidden-md close-filter"><?php echo TravelHelper::getNewIcon('Ico_close', '#A0A9B2', '20px', '20px'); ?></span></h3>
         </div>
         <div class="sort-item st-icheck">
             <div class="st-icheck-item"><label> <?php echo esc_html($service_text); ?><input class="service_order" type="radio" name="service_order_m_<?php echo esc_attr($format); ?>" data-value="new" /><span class="checkmark"></span></label></div>
@@ -111,5 +111,5 @@ if(in_array($post_type, array('st_tours', 'st_activity'))){
             break;
     }
     ?>
-    <h2 class="search-string modern-result-string" id="modern-result-string"><?php echo balanceTags($result_string); ?> <div id="btn-clear-filter" class="btn-clear-filter" style="display: none"><?php echo __('Clear filter', 'traveler'); ?></div> </h2>
+    <h3 class="search-string modern-result-string" id="modern-result-string"><?php echo balanceTags($result_string); ?> <div id="btn-clear-filter" class="btn-clear-filter" style="display: none"><?php echo __('Clear filter', 'traveler'); ?></div> </h3>
 </div>

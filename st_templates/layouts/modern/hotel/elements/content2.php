@@ -1,7 +1,5 @@
 <?php
 $style = get_post_meta(get_the_ID(), 'rs_style', true);
-$zoom_map = get_post_meta(get_the_ID(), 'rs_map_room', true);
-if(empty($zoom_map)) $zoom_map = 13;
 if (empty($style))
     $style = 'grid';
 
@@ -19,7 +17,7 @@ if(empty($map_pos))
         <div class="col-lg-6 col-md-6 col-right">
             <?php echo st()->load_template('layouts/modern/common/loader', 'map'); ?>
             <div class="map-title hidden-lg hidden-md"><?php echo __('Map', 'traveler'); ?> <span class="close-half-map"><?php echo TravelHelper::getNewIcon('Ico_close', '#A0A9B2', '20px', '20px'); ?></span></div>
-            <div id="map-search-form" class="map-full-height" data-disablecontrol="true" data-showcustomcontrol="true" data-zoom="<?php echo esc_attr($zoom_map); ?>"></div>
+            <div id="map-search-form" class="map-full-height" data-disablecontrol="true" data-showcustomcontrol="true"></div>
         </div>
     <?php } ?>
 
@@ -27,7 +25,7 @@ if(empty($map_pos))
         <?php echo st()->load_template('layouts/modern/hotel/elements/toolbar', '', array('style' => $style)); ?>
         <div id="modern-search-result" class="modern-search-result" data-format="halfmap" data-layout="2">
             <?php echo st()->load_template('layouts/modern/common/loader', 'content'); ?>
-            <div class="row <?php echo ($style == 'list') ? 'list-style' : ''; ?>">
+            <div class="row <?php echo ($style == 'list') ? 'style-list' : ''; ?>">
                 <?php
                 if($query->have_posts()) {
                     while ($query->have_posts()) {
@@ -68,7 +66,7 @@ if(empty($map_pos))
     <div class="col-lg-6 col-md-6 col-right">
         <?php echo st()->load_template('layouts/modern/common/loader', 'map'); ?>
         <div class="map-title hidden-lg hidden-md"><?php echo __('Map', 'traveler'); ?> <span class="close-half-map"><?php echo TravelHelper::getNewIcon('Ico_close', '#A0A9B2', '20px', '20px'); ?></span></div>
-        <div id="map-search-form" class="map-full-height" data-disablecontrol="true" data-showcustomcontrol="true" data-zoom="<?php echo esc_attr($zoom_map); ?>"></div>
+        <div id="map-search-form" class="map-full-height" data-disablecontrol="true" data-showcustomcontrol="true"></div>
     </div>
     <?php } ?>
 </div>

@@ -8,7 +8,7 @@ if ($fullwidth)
 
 $post_id = get_the_ID();
 $post_translated = TravelHelper::post_translated($post_id, 'st_hotel');
-$url=st_get_link_with_search(get_permalink($post_translated),array('start','end','date','adult_number','child_number', 'room_num_search'),$_GET);
+$url=st_get_link_with_search(get_permalink($post_translated),array('start','end','date','adult_number','child_number'),$_GET);
 ?>
 <div class="<?php echo esc_attr($class); ?>">
     <div class="thumb">
@@ -61,7 +61,6 @@ $url=st_get_link_with_search(get_permalink($post_translated),array('start','end'
                 ?>
             </ul>
         <?php endif; ?>
-        <?php echo st_get_avatar_in_list_service(get_the_ID(),70)?>
     </div>
     <h4 class="service-title"><a
                 href="<?php echo esc_url($url); ?>"><?php echo get_the_title($post_translated); ?></a>

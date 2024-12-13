@@ -22,7 +22,7 @@
     </div>
     <div class="content">
         <?php echo st()->load_template( 'layouts/modern/common/star', '', [ 'star' => $hotel_star ] ); ?>
-        <h3 class="title"><a href="<?php echo get_the_permalink($post_translated) ?>" class="st-link c-main"><?php echo get_the_title($post_translated) ?></a></h3>
+        <h4 class="title"><a href="<?php echo get_the_permalink($post_translated) ?>" class="st-link c-main"><?php echo get_the_title($post_translated) ?></a></h4>
         <div class="price-wrapper">
             <?php echo __('from', 'traveler'); ?> <span class="price"><?php echo TravelHelper::format_money( $price ) ?></span>
             <!--<span class="unit"><?php /*echo __( '/night', 'traveler' ) */?></span>-->

@@ -7,7 +7,7 @@
             <!--Address-->
 
             <div class="row">
-                <form action="#" class="form" method="get">
+                <form action="" class="form" method="get">
                 <div class="col-md-3 border-right">
                     <?php echo st()->load_template('layouts/modern/hotel/elements/search/location', '', [ 'has_icon' => true ]); ?>
                 </div>

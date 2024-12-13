@@ -19,63 +19,20 @@
                 <div id="topbar">
                     <?php
                     $sort_topbar_menu = st()->get_option('sort_topbar_menu', false);
-                    if ( $sort_topbar_menu ) {
+                    if ($sort_topbar_menu) {
                         ?>
                         <div class="topbar-left">
                             <ul class="st-list socials">
                                 <li>
                                     <?php
-                                    foreach ( $sort_topbar_menu as $key => $val ) {
+                                    foreach ($sort_topbar_menu as $key => $val) {
                                         $target = '';
-                                        if ( !empty( $val[ 'topbar_custom_link_target' ] ) && $val[ 'topbar_custom_link_target' ] == 'on' ) {
+                                        if (!empty($val['topbar_custom_link_target']) && $val['topbar_custom_link_target'] == 'on') {
                                             $target = '_blank';
-                                        }else {
-                                            $target = '_self';
                                         }
-                                        $icon = esc_html( $val[ 'topbar_custom_link_icon' ] );
-                                        if ( !empty( $val[ 'topbar_item' ] ) && $val[ 'topbar_position' ] == 'left' && isset( $val[ 'topbar_is_social' ] ) && $val[ 'topbar_is_social' ] == 'on' ) {
-                                            echo '<a href="' . esc_url( $val[ 'topbar_custom_link' ] ) . '" target="' . esc_attr($target) . '"><i class="fa ' . esc_attr($icon) . '"></i></a>';
-                                        }
-                                    }
-                                    ?>
-                                </li> 
-                            </ul>
-                            <ul class="st-list topbar-items">
-                                <?php
-                                foreach ( $sort_topbar_menu as $key => $val ) {
-                                    if ( !empty( $val[ 'topbar_item' ] ) && $val[ 'topbar_position' ] == 'left' && (empty( $val[ 'topbar_is_social' ] ) || $val[ 'topbar_is_social' ] == 'off') ) {
-                                        if ($val['topbar_item'] == 'search') {
-                                            echo st()->load_template('layouts/modern/common/header/topbar-items/search', '');
-                                        } elseif ( $val[ 'topbar_item' ] == 'currency' ) {
-                                            echo st()->load_template( 'layouts/modern/common/header/topbar-items/currency', '' );
-                                        }else {
-                                            echo '<li class="hidden-xs hidden-sm"><a href="' . esc_url( $val[ 'topbar_custom_link' ] ) . '" target="' . esc_attr($target) . '">' . esc_html( $val[ 'topbar_custom_link_title' ] ) . '</a></li>';
-                                        }
-                                        
-                                    }
-                                }
-                                ?>
-                            </ul>
-                            
-                        </div>
-                        <?php
-                    }
-                    if(!empty($sort_topbar_menu)){
-                    ?>
-                        <div class="topbar-right">
-                            <ul class="st-list socials">
-                                <li>
-                                    <?php
-                                    foreach ( $sort_topbar_menu as $key => $val ) {
-                                        $target = '';
-                                        if ( !empty( $val[ 'topbar_custom_link_target' ] ) && $val[ 'topbar_custom_link_target' ] == 'on' ) {
-                                            $target = '_blank';
-                                        }else {
-                                            $target = '_self';
-                                        }
-                                        $icon = esc_html( $val[ 'topbar_custom_link_icon' ] );
-                                        if ( !empty( $val[ 'topbar_item' ] ) && $val[ 'topbar_position' ] == 'right' && isset( $val[ 'topbar_is_social' ] ) && $val[ 'topbar_is_social' ] == 'on' ) {
-                                            echo '<a href="' . esc_url( $val[ 'topbar_custom_link' ] ) . '" target="' . esc_attr($target) . '"><i class="' . esc_attr($icon) . '"></i></a>';
+                                        $icon = esc_html($val['topbar_custom_link_icon']);
+                                        if (!empty($val['topbar_item']) && $val['topbar_position'] == 'left' && isset($val['topbar_is_social']) && $val['topbar_is_social'] == 'on') {
+                                            echo '<a href="' . esc_url($val['topbar_custom_link']) . '" target="' . esc_attr($target) . '"><i class="fa ' . esc_html($icon) . '"></i></a>';
                                         }
                                     }
                                     ?>
@@ -83,31 +40,45 @@
                             </ul>
                             <ul class="st-list topbar-items">
                                 <?php
-                                foreach ( $sort_topbar_menu as $key => $val ) {
-                                    if ( !empty( $val[ 'topbar_item' ] ) && $val[ 'topbar_position' ] == 'right' ) {
-                                        if ( $val[ 'topbar_item' ] == 'login' ) {
-                                            echo st()->load_template( 'layouts/modern/common/header/topbar-items/login', '' );
-                                        }elseif ( $val[ 'topbar_item' ] == 'currency' ) {
-                                            echo st()->load_template( 'layouts/modern/common/header/topbar-items/currency', '' );
-                                        } elseif ( $val[ 'topbar_item' ] == 'language' ) {
-                                            echo st()->load_template( 'layouts/modern/common/header/topbar-items/language', '' );
-                                        } elseif ($val['topbar_item'] == 'search') {
-                                            echo st()->load_template('layouts/modern/common/header/topbar-items/search', '');
-                                        } else if ( $val[ 'topbar_item' ] == 'link' && (empty( $val[ 'topbar_is_social' ] ) || $val[ 'topbar_is_social' ] == 'off') ) {
-                                            $topbar_custom_class = isset( $val[ 'topbar_custom_class' ] ) ? $val[ 'topbar_custom_class' ] : ''; ?>
-                                            <li class="d-none d-sm-none d-md-inline-block topbar-item link-item <?php echo esc_attr($topbar_custom_class);?>">
-                                                <a href="<?php echo esc_url($val['topbar_custom_link']); ?>" class="login"><?php echo esc_html($val[ 'topbar_custom_link_title' ]); ?></a>
-                                            </li>
-                                        <?php }
+                                foreach ($sort_topbar_menu as $key => $val) {
+                                    if (!empty($val['topbar_item']) && $val['topbar_position'] == 'left' && (empty($val['topbar_is_social']) || $val['topbar_is_social'] == 'off')) {
+                                        echo '<li class="hidden-xs hidden-sm"><a href="' . esc_url($val['topbar_custom_link']) . '" target="' . esc_attr($target) . '">' . esc_html($val['topbar_custom_link_title']) . '</a></li>';
                                     }
                                 }
                                 ?>
                             </ul>
-                            
                         </div>
-                    <?php }?>
+                        <?php
+                    }
+                    ?>
+                    <div class="topbar-right">
+                        <ul class="st-list topbar-items">
+                            <?php
+                            foreach ($sort_topbar_menu as $key => $val) {
+                                if (!empty($val['topbar_item']) && $val['topbar_position'] == 'right') {
+                                    if ($val['topbar_item'] == 'login') {
+                                        echo st()->load_template('layouts/modern/common/header/topbar-items/login', '');
+                                    }
+                                    if ($val['topbar_item'] == 'currency') {
+                                        echo st()->load_template('layouts/modern/common/header/topbar-items/currency', '');
+                                    }
+                                    if ($val['topbar_item'] == 'language') {
+                                        echo st()->load_template('layouts/modern/common/header/topbar-items/language', '');
+                                    }
+                                    if ($val['topbar_item'] == 'link') {
+                                        $topbar_custom_class = isset($val['topbar_custom_class']) ? $val['topbar_custom_class'] : ''; ?>
+                                        <li class="topbar-item link-item <?php echo esc_attr($topbar_custom_class); ?>">
+                                            <a href="<?php echo esc_url($val['topbar_custom_link']); ?>"
+                                               class="login"><?php echo esc_html($val['topbar_custom_link_title']); ?></a>
+                                        </li>
+                                    <?php }
+                                }
+                            }
+                            ?>
+                        </ul>
+                    </div>
                 </div>
-            <?php
+                <?php
             }
         }
         ?>
@@ -136,13 +107,10 @@
                     <img src="<?php echo esc_url($logo_mobile_url); ?>"
                          alt="<?php echo get_bloginfo('description'); ?>">
                 </a>
-                <?php if (is_front_page()) : ?>
-                <h1 class="tag_h1  hidden-lg hidden-md hidden-sm hidden-xs"><?php bloginfo( 'name' ); ?></h1>
-            <?php endif; ?>
             </div>
             <div class="header-right">
                 <nav id="st-main-menu">
-                    <a href="#" class="back-menu"><i class="fa fa-angle-left"></i></a>
+                    <a href="" class="back-menu"><i class="fa fa-angle-left"></i></a>
                     <?php
                     if (has_nav_menu('primary')) {
                         $mega_menu = st()->get_option('allow_megamenu', 'off');
@@ -156,13 +124,6 @@
                             ));
                             ?>
 
-                            <?php if(!is_user_logged_in()){ ?>
-                                <div class="advance-menu">
-                                    <a  href="#" class="login" data-toggle="modal" data-target="#st-login-form"><?php echo esc_html__('Login','traveler') ?></a>
-
-                                    <a href="#" class="signup" data-toggle="modal" data-target="#st-register-form"><?php echo esc_html__('Sign Up','traveler') ?></a>
-                                </div>
-                            <?php } ?>
                             <?php
                         } else {
                             wp_nav_menu([
@@ -174,9 +135,9 @@
                             ?>
                             <?php if(!is_user_logged_in()){ ?>
                             <div class="advance-menu">
-                                <a  href="#" class="login" data-toggle="modal" data-target="#st-login-form"><?php echo esc_html__('Login','traveler') ?></a>
+                                <a  href="" class="login" data-toggle="modal" data-target="#st-login-form"><?php echo esc_html__('Login','traveler') ?></a>
 
-                                <a href="#" class="signup" data-toggle="modal" data-target="#st-register-form"><?php echo esc_html__('Sign Up','traveler') ?></a>
+                                <a href="" class="signup" data-toggle="modal" data-target="#st-register-form"><?php echo esc_html__('Sign Up','traveler') ?></a>
                             </div>
                             <?php } ?>
                     <?php
@@ -212,7 +173,10 @@
                                     echo st()->load_template('layouts/modern/common/header/topbar-items/cart', '');
                                 }
                                 if ($val['header_item'] == 'search') {
-                                    echo st()->load_template('layouts/modern/common/header/topbar-items/search', '');
+                                    $search_header_onoff = st()->get_option('search_header_onoff', 'on');
+                                    if ($search_header_onoff == 'on'):
+                                        echo st()->load_template('layouts/modern/common/header/topbar-items/search', '');
+                                    endif;
                                 }
                             }
                         }
@@ -224,5 +188,131 @@
                 ?>
             </div>
         </div>
-    </div>
+		<div class="booking">
+			<link rel="stylesheet" href="https://easy-booking.at/plugins/global/_css/ebGlobal.css" type="text/css" media="screen" />
+			<link rel="stylesheet" type="text/css" media="screen" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/base/jquery-ui.css" />
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/i18n/jquery-ui-i18n.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.pack.js"></script>
+			<script src="https://easy-booking.at/plugins/smallsearch/ebSmallsearch.js"></script>
+			<style>#ui-datepicker-div {
+				font-size: 12px
+			}
+
+			.eb_smallsearch {
+				width: 100%;    
+				position: fixed;
+				bottom: 25px;
+				z-index: 1;
+			}
+
+			.eb_smallsearch_child {    
+				background-color: #005f6a;            
+				height: 101px;
+				width: 900px;
+				margin-right: auto;
+				margin-left: auto;
+			}
+
+			.eb_smallsearch_child_child {
+			  margin: 0px auto;
+			  width: 630px;
+			  padding: 29px 0px;
+			}
+			.heading {
+				font-size: 25px;
+				color: #FFF;
+				float: left;
+				padding-right: 25px;
+			}
+
+			.eb_smallsearch select {
+				background-color: #FFF;
+				border: 1px solid #CCC;
+				height: 30px;
+				padding: 7px 6px;
+				width: 60px;
+				float: right
+			}
+
+			.eb_smallsearch h3 {
+				color: #FFF;	
+			}
+
+			.eb_smallsearch .arrival input,
+			.eb_smallsearch .departure input {
+				color: #666;
+				font-size: 15px;
+				height: 36px;
+				line-height: 23px;
+				padding-left: 5px;
+				width: 92%;
+				border: 1px solid #CCC
+			}
+
+			.eb_smallsearch .datepicker {
+				background: url(//www.easy-booking.at/ebPlugins/smallSearch/img/cal.gif) no-repeat scroll right top 8px #FFF;
+				border: 0 none
+			}
+
+			.eb_smallsearch .adults .label,
+			.eb_smallsearch .children .label {
+				color: #666;
+				line-height: 30px;
+				padding-right: 10px
+			}
+
+			.eb_smallsearch .adults,
+			.eb_smallsearch .children {
+				margin: 5px 20px 0 0
+			}
+
+			.eb_smallsearch form div.search .sendButton {
+				background: none repeat scroll 0 0 #FFF;
+				border: 0 none;
+				border-radius: 0 0 0 0;
+				color: #005f6a;
+				cursor: pointer;
+				float: left;
+				font-size: 1em;    
+				padding: 7px 19px;
+				margin-right: 6px;
+				font-size: 15px;
+				font-weight: 500;
+			}
+			}
+
+			.eb_smallsearch h3 {
+				float: left
+			}
+
+			.eb_smallsearch .arrival,
+			.eb_smallsearch .departure {
+				min-width: 150px;
+				float: left
+			}
+
+			.eb_smallsearch .adults,
+			.eb_smallsearch .children {
+				min-width: 150px;
+				float: left
+			}
+
+			</style>
+			<script>jQuery(function($){ $.datepicker.setDefaults($.datepicker.regional['de']);}); </script>
+			<div class="eb_smallsearch"> 
+			  <div class="eb_smallsearch_child">
+				<div class="eb_smallsearch_child_child">
+				<div class="heading">BUCHEN</div>
+				<form name='request' id="myform" action="https://www.easy-booking.at/bookingengine2/#/2/" method="get" target="_top"> <input name="cid" type="hidden" id="cid" value="9403" /> <input name="lid" type="hidden" id="lid" value="2" /> <input name="stepOne" value="on" type="hidden" /> 
+				  <div class="arrival"> <input name="arrivalDate" id="arrivalDate" placeholder="Anreise" class="datepicker">  </div> 
+				  <div class="departure"> <input name="departureDate" id="departureDate" placeholder="Abreise" class="datepicker"> </div> 
+				  <div class="search"> <input class="sendButton" type="submit" value="weiter" name="imageField" id="SearchButton" alt="weiter"> </div> 
+				</form>
+				</div>
+			  </div>
+			</div>
+		</div>
+	</div>
 </header>

@@ -62,8 +62,7 @@ if($st_is_woocommerce_checkout and function_exists('WC')){
                             <div class="media-body">
                                 <?php
                                 if( get_post_type( $post_id ) == 'st_hotel '):
-                                    $room_id = $post_id;
-									$post_title = get_the_title( $room_id );
+                                    $room_id = (int) get_post_meta( $_product->ID, 'room_id', true );
                                     ?>
                                     <h4 class="media-heading"><a class="st-link c-main"
                                                                  href="<?php echo get_the_permalink($room_id) ?>"><?php echo esc_html($post_title); ?></a>
@@ -73,9 +72,9 @@ if($st_is_woocommerce_checkout and function_exists('WC')){
                                                                  href="<?php echo get_the_permalink($post_id) ?>"><?php echo esc_html($post_title); ?></a>
                                     </h4>
                                 <?php endif; ?>
-                                <!-- <div class="price-wrapper"><?php echo __('Price', 'traveler') ?>:
+                                <div class="price-wrapper"><?php echo __('Price', 'traveler') ?>:
                                     <span class="price"><?php echo TravelHelper::format_money($price); ?></span>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                     </li>
@@ -91,12 +90,12 @@ if($st_is_woocommerce_checkout and function_exists('WC')){
                         <?php echo __('Remove Cart', 'traveler') ?>
                     </a>
                     <a href="<?php echo esc_url(get_permalink( wc_get_page_id( 'checkout' ) )) ?>"
-                       class="btn btn-green btn-full upper mt10"><?php echo __('Pay Now', 'traveler') ?></a>
+                       class="btn btn-green btn-full upper mt10"><?php echo __('Check Out', 'traveler') ?></a>
                 </li>
             <?php
             else:
                 ?>
-                <li><div class="col-lg-12 cart-text-empty text-warning"><?php echo __('Your cart is empty', 'traveler'); ?></div></li>
+                <div class="col-lg-12 cart-text-empty text-warning"><?php echo __('Your cart is empty', 'traveler'); ?></div>
             <?php
             endif;
             ?>
@@ -165,7 +164,7 @@ if($st_is_woocommerce_checkout and function_exists('WC')){
                                     </h4>
                                 <?php endif; ?>
                                 <div class="price-wrapper"><?php echo __('Price', 'traveler') ;?>:
-                                    <span class="price"><?php echo TravelHelper::format_money($price); ?></span>
+                                    <span class="price"><?php echo TravelHelper::format_money($price,false); ?></span>
                                 </div>
                             </div>
                         </div>
@@ -202,7 +201,7 @@ if($st_is_woocommerce_checkout and function_exists('WC')){
                 ?>
                 <li class="cart-total">
                     <div class="sub-total"><?php echo __('Subtotal', 'traveler') ?> <span
-                                class="price"><?php echo TravelHelper::format_money($cart_total_amount); ?></span>
+                                class="price"><?php echo TravelHelper::format_money($cart_total_amount,false); ?></span>
                     </div>
                     <a href="<?php echo esc_url($check_out_url) ?>"
                        class="btn btn-green btn-full upper"><?php _e('Pay Now', 'traveler') ?></a>
@@ -210,7 +209,7 @@ if($st_is_woocommerce_checkout and function_exists('WC')){
             <?php
             else:
                 ?>
-                <li><div class="col-lg-12 cart-text-empty text-warning"><?php echo __('Your cart is empty', 'traveler'); ?></div></li>
+                <div class="col-lg-12 cart-text-empty text-warning"><?php echo __('Your cart is empty', 'traveler'); ?></div>
             <?php
             endif;
             ?>

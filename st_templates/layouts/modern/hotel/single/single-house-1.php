@@ -29,6 +29,7 @@
         $total_price = STPrice::getRoomPriceOnlyCustomPrice( $room_id, strtotime( $start ), strtotime( $end ), $room_num_search, $adult_number, $child_number );
         $sale_price  = STPrice::getRoomPrice( $room_id, strtotime( $start ), strtotime( $end ), $room_num_search, $adult_number, $child_number );
 
+        $review_rate = STReview::get_avg_rate();
 
         $gallery       = get_post_meta( $room_id, 'gallery', true );
         $gallery_array = explode( ',', $gallery );
@@ -93,44 +94,18 @@
                 </div>
             <?php } ?>
             <div class="st-hotel-room-content">
-                <div class="hotel-target-book-mobile">
-                    <div class="price-wrapper">
-                        <?php
-                        if ( $price_by_per_person == 'on' ) :
-                            echo __('from ', 'traveler');
-                            echo sprintf( '<span class="price">%s</span>', TravelHelper::format_money($sale_price) );
-                            echo '<span class="unit">';
-                            echo sprintf( _n( '/person', '/%d persons', $total_person, 'traveler' ), $total_person );
-                            echo sprintf( _n( '/night', '/%d nights', $numberday, 'traveler' ), $numberday );
-                            echo '</span>';
-                        else:
-                            echo __('from ', 'traveler');
-                            echo sprintf( '<span class="price">%s</span>', TravelHelper::format_money($sale_price) );
-                            echo '<span class="unit">';
-                            echo sprintf( _n( '/night', '/%d nights', $numberday, 'traveler' ), $numberday );
-                            echo '</span>';
-                        endif; ?>
-                    </div>
-                    <?php
-                    if($room_external == 'off' || empty($room_external)){
-                        ?>
-                        <a href=""
-                           class="btn btn-mpopup btn-green"><?php echo esc_html__( 'Book Now', 'traveler' ) ?></a>
-                        <?php
-                    }else{
-                        ?>
-                        <a href="<?php echo esc_url($room_external_link); ?>"
-                           class="btn btn-green"><?php echo esc_html__( 'Explore', 'traveler' ) ?></a>
-                        <?php
-                    }
-                    ?>
-                </div>
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-12 col-sm-8 col-md-9">
                             <div class="room-heading">
                                 <div class="left">
                                     <div class="st-heading"><?php the_title(); ?></div>
+                                </div>
+                                <div class="right">
+                                    <div class="review-score style-2">
+                                        <?php echo st()->load_template( 'layouts/modern/common/star', '', [ 'star' => $review_rate, 'style' => 'style-2' ] ); ?>
+                                        <p class="st-link mb0"><?php comments_number( __( 'from 0 review', 'traveler' ), __( 'from 1 review', 'traveler' ), __( 'from % reviews', 'traveler' ) ); ?></p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="st-hr large"></div>
@@ -139,7 +114,7 @@
                                     <div class="col-xs-6 col-md-3">
                                         <div class="item has-matchHeight">
                                             <?php echo TravelHelper::getNewIcon( 'ico_square_blue', '', '32px' ); ?>
-                                            <?php echo sprintf( __( 'S: %s', 'traveler' ), get_post_meta( $room_id, 'room_footage', true ) ) ?><?php echo __('m','traveler')?><sup>2</sup>
+                                            <?php echo sprintf( __( 'S: %s', 'traveler' ), get_post_meta( $room_id, 'room_footage', true ) ) ?><?php echo __('ft','traveler')?><sup>2</sup>
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-md-3">
@@ -190,7 +165,7 @@
                             <h2 class="st-heading-section"><?php echo __( 'Amenities', 'traveler' ) ?></h2>
                             <?php
                                 $facilities = get_the_terms( get_the_ID(), 'room_facilities');
-                                if ( is_array($facilities) ) {
+                                if ( $facilities ) {
                                     $count = count( $facilities );
                                     ?>
                                     <div class="facilities" data-toggle-section="st-facilities"
@@ -199,8 +174,8 @@
                                         <div class="row">
                                             <?php
                                                 foreach ( $facilities as $term ) {
-                                                    $icon     = TravelHelper::handle_icon( get_tax_meta( $term->term_id, 'st_icon') );
-                                                    $icon_new = TravelHelper::handle_icon( get_tax_meta( $term->term_id, 'st_icon_new') );
+                                                    $icon     = TravelHelper::handle_icon( get_tax_meta( $term->term_id, 'st_icon', true ) );
+                                                    $icon_new = TravelHelper::handle_icon( get_tax_meta( $term->term_id, 'st_icon_new', true ) );
                                                     if ( !$icon ) $icon = "fa fa-cogs";
                                                     ?>
                                                     <div class="col-xs-6 col-sm-4">
@@ -294,6 +269,63 @@
                                         </div>
                                     <?php }?>
                                 <?php } ?>
+
+                            <?php if(comments_open() and st()->get_option( 'rental_review' ) == 'on') {?>
+                            <div class="st-hr"></div>
+                            <div class="st-flex space-between">
+                                <h2 class="st-heading-section mg0"><?php echo esc_html__( 'Review', 'traveler' ); ?></h2>
+                                <div class="f18 font-medium15">
+                                    <span class="mr15"><?php comments_number( __( '0 review', 'traveler' ), __( '1 review', 'traveler' ), __( '% reviews', 'traveler' ) ); ?></span>
+                                    <?php echo st()->load_template( 'layouts/modern/common/star', '', [ 'star' => $review_rate, 'style' => 'style-2', 'element' => 'span' ] ); ?>
+                                </div>
+                            </div>
+                            <div id="reviews" class="hotel-room-review">
+                                <div class="review-pagination">
+                                    <div id="reviews" class="review-list">
+                                        <?php
+                                            $comments_count   = wp_count_comments( get_the_ID() );
+                                            $total            = (int)$comments_count->approved;
+                                            $comment_per_page = (int)get_option( 'comments_per_page', 10 );
+                                            $paged            = (int)STInput::get( 'comment_page', 1 );
+                                            $from             = $comment_per_page * ( $paged - 1 ) + 1;
+                                            $to               = ( $paged * $comment_per_page < $total ) ? ( $paged * $comment_per_page ) : $total;
+                                        ?>
+                                        <?php
+                                            $offset         = ( $paged - 1 ) * $comment_per_page;
+                                            $args           = [
+                                                'number'  => $comment_per_page,
+                                                'offset'  => $offset,
+                                                'post_id' => get_the_ID(),
+                                                'status' => ['approve']
+                                            ];
+                                            $comments_query = new WP_Comment_Query;
+                                            $comments       = $comments_query->query( $args );
+
+                                            if ( $comments ):
+                                                foreach ( $comments as $key => $comment ):
+                                                    echo st()->load_template( 'layouts/modern/common/reviews/review', 'list', [ 'comment' => (object)$comment ] );
+                                                endforeach;
+                                            endif;
+                                        ?>
+                                    </div>
+                                </div>
+                                <?php TravelHelper::pagination_comment( [ 'total' => $total ] ) ?>
+                                <?php
+                                    if ( comments_open( $room_id ) ) {
+                                        ?>
+                                        <div id="write-review">
+                                            <h4 class="heading">
+                                                <a href="" class="toggle-section c-main f16" data-target="st-review-form"><?php echo __( 'Write a review', 'traveler' ) ?><i class="fa fa-angle-down ml5"></i></a>
+                                            </h4>
+                                            <?php
+                                                TravelHelper::comment_form();
+                                            ?>
+                                        </div>
+                                        <?php
+                                    }
+                                ?>
+                            </div>
+                            <?php }?>
                             <div class="stoped-scroll-section"></div>
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-3">
@@ -322,7 +354,7 @@
                                             endif; ?>
                                         </div>
                                         <?php if(empty($room_external) || $room_external == 'off'){ ?>
-                                            <form id="form-booking-inpage" class="form single-room-form hotel-room-booking-form" method="post">
+                                            <form id="form-booking-inpage single-room-form" class="form single-room-form hotel-room-booking-form" method="post">
                                                 <input name="action" value="hotel_add_to_cart" type="hidden">
                                                 <input name="item_id" value="<?php echo esc_attr($hotel_id); ?>" type="hidden">
                                                 <input name="room_id" value="<?php echo esc_attr($room_id); ?>" type="hidden">
@@ -359,7 +391,7 @@
                                                 <?php echo st()->load_template( 'layouts/modern/hotel/elements/search/guest', '' ); ?>
                                                 <?php echo st()->load_template( 'layouts/modern/hotel/elements/search/extra', '' ); ?>
                                                 <div class="submit-group">
-                                                    <button class="btn btn-large btn-full upper font-medium btn_hotel_booking btn-book-ajax"
+                                                    <button class="btn btn-green btn-large btn-full upper font-medium btn_hotel_booking btn-book-ajax"
                                                            type="submit"
                                                            name="submit">
                                                         <?php echo __( 'Book Now', 'traveler' ) ?>
@@ -373,7 +405,7 @@
                                             </form>
                                         <?php }else{ ?>
                                             <div class="submit-group mb30">
-                                                <a href="<?php echo esc_url($room_external_link); ?>" class="btn btn-large btn-full upper"><?php echo esc_html__( 'Explore', 'traveler' ); ?></a>
+                                                <a href="<?php echo esc_url($room_external_link); ?>" class="btn btn-green btn-large btn-full upper"><?php echo esc_html__( 'Book Now', 'traveler' ); ?></a>
                                             </div>
                                         <?php } ?>
                                     </div>
@@ -385,14 +417,14 @@
                                                 $author_id = get_post_field( 'post_author', get_the_ID() );
                                                 $userdata  = get_userdata( $author_id );
                                                 ?>
-                                                <a href="<?php echo st_get_author_posts_url(get_the_ID(),70); ?>">
+                                                <a href="<?php echo get_author_posts_url($author_id); ?>">
                                                     <?php
                                                     echo st_get_profile_avatar( $author_id, 60 );
                                                     ?>
                                                 </a>
                                             </div>
                                             <div class="media-body">
-                                                <h4 class="media-heading"><a href="<?php echo st_get_author_posts_url(get_the_ID(),70); ?>" class="author-link"><?php echo TravelHelper::get_username( $author_id ); ?></a></h4>
+                                                <h4 class="media-heading"><a href="<?php echo get_author_posts_url($author_id); ?>" class="author-link"><?php echo TravelHelper::get_username( $author_id ); ?></a></h4>
                                                 <p><?php echo sprintf( __( 'Member Since %s', 'traveler' ), date( 'Y', strtotime( $userdata->user_registered ) ) ) ?></p>
                                             </div>
                                             <?php

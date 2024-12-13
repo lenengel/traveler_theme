@@ -3,7 +3,7 @@
         <?php echo st()->load_template('layouts/modern/hotel/elements/top-filter/top', 'filter', array('format' => 'popup')); ?>
         <div class="row page-half-map">
             <div class="col-lg-6 col-md-6 col-right-map col-md-push-6">
-                <div class="map-popup-title d-md-none hidden-lg hidden-md">
+                <div class="map-popup-title hidden-lg hidden-md">
                     <?php echo __('Map', 'traveler'); ?>
                     <span class="close-map-view-popup"><?php echo TravelHelper::getNewIcon('Ico_close', '#A0A9B2', '20px', '20px'); ?></span>
                 </div>

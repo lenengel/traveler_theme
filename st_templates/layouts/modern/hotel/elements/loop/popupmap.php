@@ -2,7 +2,7 @@
 global $post;
 $post_id = get_the_ID();
 $post_translated = TravelHelper::post_translated($post_id);
-$url = st_get_link_with_search(get_permalink($post_translated), array('start', 'end', 'date', 'adult_number', 'child_number', 'room_num_search'), $_GET);
+$url = st_get_link_with_search(get_permalink($post_translated), array('start', 'end', 'date', 'adult_number', 'child_number'), $_GET);
 ?>
 <div class="col-lg-12 item-service">
     <div class="item-service-inner">

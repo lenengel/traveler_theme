@@ -98,7 +98,7 @@ $marker_icon = st()->get_option('st_hotel_icon_map_marker', '');
                         echo esc_html__('Price avg ', 'traveler');
                     }
                     echo '<strong>' . TravelHelper::format_money($price) . '</strong>';
-                    echo '<span class="unit">' . esc_html__(' /night', 'traveler') . '</span>';
+                    echo '<span class="unit">' . esc_html__(' / night', 'traveler') . '</span>';
                     ?>
                 </span>
 

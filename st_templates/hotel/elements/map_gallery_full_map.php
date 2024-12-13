@@ -99,7 +99,7 @@ if(!empty($tour_gallery)){
                 echo esc_html__('Price avg ', 'traveler');
             }
             echo '<strong>' . TravelHelper::format_money($price) . '</strong>';
-            echo '<span class="unit">' . esc_html__(' /night', 'traveler') . '</span>';
+            echo '<span class="unit">' . esc_html__(' / night', 'traveler') . '</span>';
             ?>
         </span>
     </div>

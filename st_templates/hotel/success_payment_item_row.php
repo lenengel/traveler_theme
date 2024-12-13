@@ -12,7 +12,7 @@
 $order_token_code = STInput::get('order_token_code');
 
 if($order_token_code){
-    $order_code = STOrder::get_order_id_by_token($order_token_code)->post_id;
+    $order_code = STOrder::get_order_id_by_token($order_token_code);
 }
 
 $hotel_id = $key;

@@ -29,10 +29,9 @@ if(!empty($end)){
         <div class="check-in-wrapper">
             <label><?php echo __('Check In - Out', 'traveler'); ?></label>
             <div class="render check-in-render"><?php echo esc_html($starttext); ?></div><span> - </span><div class="render check-out-render"><?php echo esc_html($endtext); ?></div>
-            <input type="hidden" class="check-in-input" value="<?php echo esc_attr($start) ?>" name="start">
-            <input type="hidden" class="check-out-input" value="<?php echo esc_attr($end) ?>" name="end">
-            <input type="text" class="check-in-out" value="<?php echo esc_attr($date); ?>" name="date">
         </div>
     </div>
-    
+    <input type="hidden" class="check-in-input" value="<?php echo esc_attr($start) ?>" name="start">
+    <input type="hidden" class="check-out-input" value="<?php echo esc_attr($end) ?>" name="end">
+    <input type="text" class="check-in-out" value="<?php echo esc_attr($date); ?>" name="date">
 </div>

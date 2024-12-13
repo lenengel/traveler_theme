@@ -18,16 +18,16 @@ if(in_array($post_type, array('st_tours', 'st_activity'))){
 }
 
 ?>
-<div class="toolbar d-flex align-items-center justify-content-between flex-row-reverse <?php echo ($layout == '3') ? 'layout3' : ''; ?>">
-    <ul class="toolbar-action hidden-xs d-none d-md-flex align-items-center justify-content-right">
+<div class="toolbar <?php echo ($layout == '3') ? 'layout3' : ''; ?>">
+    <ul class="toolbar-action hidden-xs">
         <li>
             <div class="form-extra-field dropdown <?php echo ($format == 'popup') ? 'popup-sort' : ''; ?>">
-                <button class="btn btn-link dropdown dropdown-toggle" type="button" id="dropdownMenuSort" data-toggle="dropdown" data-bs-auto-close="true" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-link dropdown" type="button" id="dropdownMenuSort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <?php echo __('Sort', 'traveler'); ?> <i class="fa fa-angle-down arrow"></i>
                 </button>
-                <div class="dropdown-menu dropdown-menu-end sort-menu" aria-labelledby="dropdownMenuSort">
+                <div class="dropdown-menu sort-menu" aria-labelledby="dropdownMenuSort">
                     <div class="sort-title">
-                        <h3><?php echo __('SORT BY', 'traveler'); ?></h3>
+                        <h3><?php echo __('SORT BY', 'traveler'); ?> <span class="hidden-lg hidden-md hidden-sm close-filter"><i class="fa fa-times" aria-hidden="true"></i></span></h3>
                     </div>
                     <div class="sort-item st-icheck">
                         <div class="st-icheck-item"><label> <?php echo esc_html($service_text); ?><input class="service_order" type="radio" name="service_order_<?php echo esc_attr($format); ?>" data-value="new"/><span class="checkmark"></span></label></div>
@@ -62,7 +62,7 @@ if(in_array($post_type, array('st_tours', 'st_activity'))){
     </ul>
     <div class="dropdown-menu sort-menu sort-menu-mobile">
         <div class="sort-title">
-            <h3><?php echo __('SORT BY', 'traveler'); ?> <span class="d-md-none hidden-lg hidden-md close-filter"><?php echo TravelHelper::getNewIcon('Ico_close', '#A0A9B2', '20px', '20px'); ?></span></h3>
+            <h3><?php echo __('SORT BY', 'traveler'); ?> <span class="hidden-lg hidden-md close-filter"><?php echo TravelHelper::getNewIcon('Ico_close', '#A0A9B2', '20px', '20px'); ?></span></h3>
         </div>
         <div class="sort-item st-icheck">
             <div class="st-icheck-item"><label> <?php echo esc_html($service_text); ?><input class="service_order" type="radio" name="service_order_m_<?php echo esc_attr($format); ?>" data-value="new" /><span class="checkmark"></span></label></div>
@@ -78,7 +78,7 @@ if(in_array($post_type, array('st_tours', 'st_activity'))){
             <div class="st-icheck-item"><label> <?php echo __('z - a', 'traveler'); ?><input class="service_order" type="radio" name="service_order_m_<?php echo esc_attr($format); ?>"  data-value="<?php echo esc_attr($name_desc); ?>"/><span class="checkmark"></span></label></div>
         </div>
     </div>
-    <ul class="toolbar-action-mobile hidden-lg hidden-md d-md-none">
+    <ul class="toolbar-action-mobile hidden-lg hidden-md">
         <li><a href="#" class="btn btn-primary btn-date"><?php echo __('Date', 'traveler'); ?></a></li>
         <?php if($post_type == 'st_hotel'){ ?>
             <li><a href="#" class="btn btn-primary btn-guest"><?php echo __('Guest', 'traveler'); ?></a></li>
@@ -125,5 +125,5 @@ if(in_array($post_type, array('st_tours', 'st_activity'))){
             break;
     }
     ?>
-    <h2 class="search-string modern-result-string" id="modern-result-string"><?php echo balanceTags($result_string); ?> <div id="btn-clear-filter" class="btn-clear-filter" style="display: none"><?php echo __('Clear filter', 'traveler'); ?></div> </h2>
+    <h3 class="search-string modern-result-string" id="modern-result-string"><?php echo balanceTags($result_string); ?> <div id="btn-clear-filter" class="btn-clear-filter" style="display: none"><?php echo __('Clear filter', 'traveler'); ?></div> </h3>
 </div>

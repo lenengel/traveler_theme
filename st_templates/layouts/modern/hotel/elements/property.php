@@ -1,6 +1,6 @@
 <div class="item-service-map">
     <div class="thumb">
-        <a href="<?php if(!empty($data['url'])) {echo esc_url($data['url']); }?>">
+        <a href="<?php if(isset($data['url'])) {echo esc_url($data['url']); }?>">
             <?php
             if(!empty($data['featured'])){
                 echo '<img src="'. esc_url($data['featured']) .'" alt="'.esc_attr($data['name']).'" class="img-responsive"  style ="

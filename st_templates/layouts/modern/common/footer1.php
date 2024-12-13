@@ -17,7 +17,7 @@
             </div>
         </footer>
     <?php } ?>
-<div class="container main-footer-sub">
+<div class="container main-footer-sub abc">
     <div class="st-flex space-between">
         <div class="left">
             <div class="f14"><?php echo sprintf( esc_html__( 'Copyright © %s by', 'traveler' ), date( 'Y' ) ); ?> <a
@@ -25,8 +25,7 @@
                         class="st-link"><?php bloginfo( 'name' ) ?></a></div>
         </div>
         <div class="right">
-            <img width="240" height="40" src="<?php echo get_template_directory_uri() ?>/v2/images/cards.png" alt="<?php echo esc_attr__('Trust badges','traveler');?>"
-                            class="img-responsive st_trustbase">
+            <img src="<?php echo get_template_directory_uri() ?>/v2/images/cards.png" alt="" class="img-responsive">
         </div>
     </div>
 </div>

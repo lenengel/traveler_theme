@@ -30,6 +30,8 @@
         $total_price = STPrice::getRoomPriceOnlyCustomPrice( $room_id, strtotime( $start ), strtotime( $end ), $room_num_search, $adult_number, $child_number );
         $sale_price  = STPrice::getRoomPrice( $room_id, strtotime( $start ), strtotime( $end ), $room_num_search, $adult_number, $child_number );
 
+        $review_rate = STReview::get_avg_rate();
+
         $gallery       = get_post_meta( $room_id, 'gallery', true );
         $gallery_array = explode( ',', $gallery );
 
@@ -103,20 +105,12 @@
                     if($room_external == 'off' || empty($room_external)){
                         ?>
                         <a href=""
-                            class="btn btn-mpopup btn-green">
-                            <?php
-                                if($booking_type == 'enquire'){
-                                    echo esc_html__('Inquiry', 'traveler');
-                                } else {
-                                    echo esc_html__('Check Availability', 'traveler');
-                                }
-                            ?>
-                        </a>
+                           class="btn btn-mpopup btn-green"><?php echo esc_html__( 'Book Now', 'traveler' ) ?></a>
                         <?php
                     }else{
                         ?>
                         <a href="<?php echo esc_url($room_external_link); ?>"
-                           class="btn btn-green"><?php echo esc_html__( 'Explore', 'traveler' ) ?></a>
+                           class="btn btn-green"><?php echo esc_html__( 'Book Now', 'traveler' ) ?></a>
                         <?php
                     }
                     ?>
@@ -127,10 +121,10 @@
                             <div class="room-heading">
                                 <div class="left">
                                     <div class="st-heading x-large"><?php the_title(); ?></div>
-                                    <div class="sub-heading mt10"><?php echo __( 'Hotel', 'traveler' ) ?>: <a
-                                                href="<?php echo get_the_permalink( $hotel_id ); ?>"
-                                                class="st-link"><?php echo get_the_title( $hotel_id ) ?></a>
+                                    <div class="sub-heading mt10">									
                                     </div>
+                                </div>
+                                <div class="right">                                    
                                 </div>
                             </div>
                             <div class="st-hr large"></div>
@@ -139,7 +133,7 @@
                                     <div class="col-xs-6 col-md-3">
                                         <div class="item has-matchHeight">
                                             <?php echo TravelHelper::getNewIcon( 'ico_square_blue', '', '32px' ); ?>
-                                            <?php echo sprintf( __( 'S: %s', 'traveler' ), get_post_meta( $room_id, 'room_footage', true ) ) ?><?php echo __('m','traveler')?><sup>2</sup>
+                                            <?php echo sprintf( __( 'S: %s', 'traveler' ), get_post_meta( $room_id, 'room_footage', true ) ) ?><?php echo __('ft','traveler')?><sup>2</sup>
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-md-3">
@@ -179,99 +173,38 @@
                                 <?php } ?>
                             </div>
                             <?php if ( $count >= 120 ) { ?>
-								<a href="#" class="st-link block"
-									data-show-target="st-description"
-									data-text-less="<?php echo esc_html__( 'View Less', 'traveler' ) ?>"
-									data-text-more="<?php echo esc_html__( 'View More', 'traveler' ) ?>">
-										<span class="text"><?php echo esc_html__( 'View More', 'traveler' ) ?></span>
-										<i class="fa fa-caret-down ml3"></i>
-								</a>
+                                <a href="#" class="st-link block" data-show-target="st-description"
+                                   data-text-less="<?php echo esc_html__( 'View Less', 'traveler' ) ?>"
+                                   data-text-more="<?php echo esc_html__( 'View More', 'traveler' ) ?>"><span
+                                            class="text"><?php echo esc_html__( 'View More', 'traveler' ) ?></span><i
+                                            class="fa fa-caret-down ml3"></i></a>
                             <?php } ?>
-
                             <div class="st-hr large"></div>
-                            <!--Table Discount group -->
-                            <?php $discount_by_day = !empty(get_post_meta(get_the_ID(),'discount_by_day')) ? get_post_meta(get_the_ID(),'discount_by_day',true) : '';
-                                if(!empty($discount_by_day)){
-                                    $discount_type_no_day = !empty(get_post_meta(get_the_ID(),'discount_type_no_day')) ? get_post_meta(get_the_ID(),'discount_type_no_day',true) : '';
-                                    if($discount_type_no_day == 'percent'){
-                                        $text_discount_type_no_day = __('by Percent','traveler');
-                                    } else {
-                                        $text_discount_type_no_day = __('by Amount','traveler');
-                                    }
-                                    ?>
-                                <div class="st-hr large"></div>
-                                <div class="accordion-item">
-                                    <h2 class="st-heading-section" id="headingDiscount">
-										<?php echo __('Bulk discount', 'traveler') .' ('.esc_html($text_discount_type_no_day).')'; ?>
-                                    </h2>
-                                    <div id="collapseDiscount" class="accordion-collapse collapse show" aria-labelledby="headingDiscount" data-bs-parent="#headingDiscount">
-                                        <div class="accordion-body">
-                                            <div class="st-program">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">#</th>
-                                                            <th scope="col"><?php echo esc_html__('Discount group','traveler');?></th>
-                                                            <th scope="col"><?php echo esc_html__('From No. days','traveler');?></th>
-                                                            <th scope="col"><?php echo esc_html__('To No. days', 'traveler');?></th>
-                                                            <th scope="col"><?php echo esc_html__('Value', 'traveler');?></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-                                                            foreach($discount_by_day as $key=>$discount_day){?>
-                                                                <tr>
-                                                                    <th scope="row"><?php echo intval($key + 1)?></th>
-                                                                    <td><?php echo esc_html(!empty($discount_day['title']) ? $discount_day['title'] : '');?></td>
-                                                                    <td><?php echo esc_html(!empty($discount_day['number_day'])? $discount_day['number_day'] : '');?></td>
-                                                                    <td><?php echo esc_html(!empty($discount_day['number_day_to']) ? $discount_day['number_day_to'] : '');?></td>
-                                                                    <td>
-                                                                        <?php
-                                                                        if($discount_type_no_day == 'percent'){
-                                                                            echo esc_html($discount_day['discount']).'%';
-                                                                        } else {
-                                                                            echo TravelHelper::format_money($discount_day['discount']);
-                                                                        }
-                                                                        ?>
-                                                                    </td>
-                                                                </tr>
-                                                            <?php }
-                                                        ?>
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php }?>
-                            <!--End Table Discount group -->
                             <?php
                             $all_attribute = TravelHelper::st_get_attribute_advance( 'hotel_room');
                             foreach ($all_attribute as $key_attr => $attr) {
-                                if(!empty($attr["value"])){
+                                if(!empty($attr["value"]) && ($attr["value"] != 'room_type')){
                                     $get_label_tax = get_taxonomy($attr["value"]);
                                     $facilities = get_the_terms( get_the_ID(), $attr["value"]);
                                     ?>
-                                    <div class="stt-attr-<?php echo esc_attr($attr["value"]);?>">
-                                    <?php if($attr["value"] != 'room_type'){
+                                    <?php
                                         if(!empty($get_label_tax) && !empty($facilities)  ){
-                                                echo '<h2 class="st-heading-section">'.esc_html($get_label_tax->label).'</h2>';
-                                            }
-                                        ?>
-                                        <?php
-                                            if ( $facilities ) {
-                                                $count = count( $facilities );
-                                                ?>
-                                                <div class="facilities" data-toggle-section="st-<?php echo esc_attr($attr["value"]);?>"
-                                                    <?php if ( $count > 6 ) echo 'data-show-all="st-'. esc_attr($attr["value"]) .'"
-                                                data-height="150"'; ?>
-                                                    >
-                                                    <div class="row">
-                                                        <?php
+                                            echo '<h2 class="st-heading-section">'.esc_html($get_label_tax->label).'</h2>';
+                                        }
+                                    ?>
+                                    <?php
+                                        if ( $facilities ) {
+                                            $count = count( $facilities );
+                                            ?>
+                                            <div class="facilities" data-toggle-section="st-<?php echo esc_attr($attr["value"]);?>"
+                                                <?php if ( $count > 6 ) echo 'data-show-all="st-'. esc_attr($attr["value"]) .'"
+                                            data-height="150"'; ?>
+                                                >
+                                                <div class="row">
+                                                    <?php
                                                         foreach ( $facilities as $term ) {
-                                                            $icon     = TravelHelper::handle_icon( get_tax_meta( $term->term_id, 'st_icon') );
-                                                            $icon_new = TravelHelper::handle_icon( get_tax_meta( $term->term_id, 'st_icon_new') );
+                                                            $icon     = TravelHelper::handle_icon( get_tax_meta( $term->term_id, 'st_icon', true ) );
+                                                            $icon_new = TravelHelper::handle_icon( get_tax_meta( $term->term_id, 'st_icon_new', true ) );
                                                             if ( !$icon ) $icon = "fa fa-cogs";
                                                             ?>
                                                             <div class="col-xs-6 col-sm-4">
@@ -285,29 +218,84 @@
                                                                     ?>
                                                                 </div>
                                                             </div>
-                                                        <?php }?>
-                                                    </div>
+                                                        <?php }
+                                                    ?>
                                                 </div>
-                                                <?php if ( $count > 6 ) { ?>
-                                                    <a href="#" class="st-link block" data-show-target="st-<?php echo esc_attr($attr["value"]);?>"
-                                                    data-text-less="<?php echo esc_html__( 'Show Less', 'traveler' ) ?>"
-                                                    data-text-more="<?php echo esc_html__( 'Show All', 'traveler' ) ?>"><span
-                                                                class="text"><?php echo esc_html__( 'Show All', 'traveler' ) ?></span>
-                                                        <i
-                                                                class="fa fa-caret-down ml3"></i></a>
-                                                    <?php
-                                                }
+                                            </div>
+                                            <?php if ( $count > 6 ) { ?>
+                                                <a href="#" class="st-link block" data-show-target="st-<?php echo esc_attr($attr["value"]);?>"
+                                                data-text-less="<?php echo esc_html__( 'Show Less', 'traveler' ) ?>"
+                                                data-text-more="<?php echo esc_html__( 'Show All', 'traveler' ) ?>"><span
+                                                            class="text"><?php echo esc_html__( 'Show All', 'traveler' ) ?></span>
+                                                    <i
+                                                            class="fa fa-caret-down ml3"></i></a>
+                                                <?php
                                             }
-                                        if ( $facilities ) {
-                                        ?>
-                                            <div class="st-hr large"></div>
-                                        <?php }
-                                    } ?>
-                                    </div>
-                                <?php }
+                                        }
+                                    if ( $facilities ) {
+                                    ?>
+                                        <div class="st-hr large"></div>
+                                    <?php }
+                                }
 
                             }
                             ?>
+                            <?php if(comments_open() and st()->get_option( 'room_review' ) == 'on') {?>
+                            <div class="st-hr large"></div>
+                            <div class="st-flex space-between">
+                                <h2 class="st-heading-section"><?php echo esc_html__( 'Review', 'traveler' ); ?></h2>
+                                <div class="f18 font-medium15">
+                                    <span class="mr15"><?php comments_number( __( '0 review', 'traveler' ), __( '1 review', 'traveler' ), __( '% reviews', 'traveler' ) ); ?></span>
+                                    <?php echo st()->load_template( 'layouts/modern/common/star', '', [ 'star' => $review_rate, 'style' => 'style-2', 'element' => 'span' ] ); ?>
+                                </div>
+                            </div>
+                            <div id="reviews" class="hotel-room-review">
+                                <div class="review-pagination">
+                                    <div id="reviews" class="review-list">
+                                        <?php
+                                            $comments_count   = wp_count_comments( get_the_ID() );
+                                            $total            = (int)$comments_count->approved;
+                                            $comment_per_page = (int)get_option( 'comments_per_page', 10 );
+                                            $paged            = (int)STInput::get( 'comment_page', 1 );
+                                            $from             = $comment_per_page * ( $paged - 1 ) + 1;
+                                            $to               = ( $paged * $comment_per_page < $total ) ? ( $paged * $comment_per_page ) : $total;
+                                        ?>
+                                        <?php
+                                            $offset         = ( $paged - 1 ) * $comment_per_page;
+                                            $args           = [
+                                                'number'  => $comment_per_page,
+                                                'offset'  => $offset,
+                                                'post_id' => get_the_ID(),
+                                                'status' => ['approve']
+                                            ];
+                                            $comments_query = new WP_Comment_Query;
+                                            $comments       = $comments_query->query( $args );
+
+                                            if ( $comments ):
+                                                foreach ( $comments as $key => $comment ):
+                                                    echo st()->load_template( 'layouts/modern/common/reviews/review', 'list', [ 'comment' => (object)$comment ] );
+                                                endforeach;
+                                            endif;
+                                        ?>
+                                    </div>
+                                </div>
+                                <?php TravelHelper::pagination_comment( [ 'total' => $total ] ) ?>
+                                <?php
+                                    if ( comments_open( $room_id ) ) {
+                                        ?>
+                                        <div id="write-review">
+                                            <h4 class="heading">
+                                                <a href="" class="toggle-section c-main f16" data-target="st-review-form"><?php echo __( 'Write a review', 'traveler' ) ?><i class="fa fa-angle-down ml5"></i></a>
+                                            </h4>
+                                            <?php
+                                                TravelHelper::comment_form();
+                                            ?>
+                                        </div>
+                                        <?php
+                                    }
+                                ?>
+                            </div>
+                            <?php }?>
                             <div class="stoped-scroll-section"></div>
                         </div>
                         <div class="col-xs-12 col-md-3">
@@ -348,7 +336,7 @@
                                             <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
                                                 <div class="tab-pane fade in active" id="nav-book" role="tabpanel" aria-labelledby="nav-book-tab">
                                                     <?php if(empty($room_external) || $room_external == 'off'){ ?>
-                                                        <form id="single-room-form" class="form single-room-form hotel-room-booking-form form-has-guest-name" method="post">
+                                                        <form id="single-room-form" class="form single-room-form hotel-room-booking-form" method="post">
                                                             <input name="action" value="hotel_add_to_cart" type="hidden">
                                                             <input name="item_id" value="<?php echo esc_attr($hotel_id); ?>" type="hidden">
                                                             <input name="room_id" value="<?php echo esc_attr($room_id); ?>" type="hidden">
@@ -399,12 +387,9 @@
                                                                        value="<?php echo esc_attr( $date ); ?>" name="date">
                                                             </div>
                                                             <?php echo st()->load_template( 'layouts/modern/hotel/elements/search/guest', '' ); ?>
-                                                            <div class="item field-guest form-group form-extra-field">
-                                                            	<?php echo st()->load_template( 'layouts/modern/hotel/elements/search/guest-name', '' ); ?>
-                                                        	</div>
                                                             <?php echo st()->load_template( 'layouts/modern/hotel/elements/search/extra', '' ); ?>
                                                             <div class="submit-group">
-                                                                <button class="btn btn-large btn-full upper font-medium btn_hotel_booking btn-book-ajax"
+                                                                <button class="btn btn-green btn-large btn-full upper font-medium btn_hotel_booking btn-book-ajax"
                                                                        type="submit"
                                                                        name="submit"
                                                                        value="<?php echo __( 'Book Now', 'traveler' ) ?>">
@@ -416,12 +401,11 @@
                                                             <div class="mt30 message-wrapper">
                                                                 <?php echo STTemplate::message() ?>
                                                             </div>
-															<div class="message-wrapper-2"></div>
                                                         </form>
                                                     <?php }else{ ?>
                                                         <div class="submit-group mb30">
-                                                            <a href="<?php echo esc_url($room_external_link); ?>" class="btn btn-large btn-full upper"><?php echo esc_html__( 'Explore', 'traveler' ); ?></a>
-                                                            <form id="form-booking-inpage" class="form single-room-form hotel-room-booking-form form-has-guest-name" method="post">
+                                                            <a href="<?php echo esc_url($room_external_link); ?>" class="btn btn-green btn-large btn-full upper"><?php echo esc_html__( 'Book Now', 'traveler' ); ?></a>
+                                                            <form id="form-booking-inpage single-room-form" class="form single-room-form hotel-room-booking-form" method="post">
                                                                 <input name="action" value="hotel_add_to_cart" type="hidden">
                                                                 <input name="item_id" value="<?php echo esc_attr($hotel_id); ?>" type="hidden">
                                                                 <input name="room_id" value="<?php echo esc_attr($room_id); ?>" type="hidden">
@@ -461,7 +445,7 @@
                                                 </div>
                                                 <h4 class="title-enquiry-form"><?php echo esc_html__('Inquiry', 'traveler'); ?></h4>
                                                 <?php echo st()->load_template( 'email/email_single_service' ); ?>
-                                                <form id="form-booking-inpage" class="form single-room-form hotel-room-booking-form form-has-guest-name" method="post">
+                                                <form id="form-booking-inpage single-room-form" class="form single-room-form hotel-room-booking-form" method="post">
                                                     <input name="action" value="hotel_add_to_cart" type="hidden">
                                                     <input name="item_id" value="<?php echo esc_attr($hotel_id); ?>" type="hidden">
                                                     <input name="room_id" value="<?php echo esc_attr($room_id); ?>" type="hidden">
@@ -492,7 +476,7 @@
                                                     endif; ?>
                                                 </div>
                                                 <?php if(empty($room_external) || $room_external == 'off'){ ?>
-                                                    <form id="form-booking-inpage" class="form single-room-form hotel-room-booking-form form-has-guest-name" method="post">
+                                                    <form id="form-booking-inpage single-room-form" class="form single-room-form hotel-room-booking-form" method="post">
                                                         <input name="action" value="hotel_add_to_cart" type="hidden">
                                                         <input name="item_id" value="<?php echo esc_attr($hotel_id); ?>" type="hidden">
                                                         <input name="room_id" value="<?php echo esc_attr($room_id); ?>" type="hidden">
@@ -531,12 +515,9 @@
                                                                    value="<?php echo esc_attr( $date ); ?>" name="date">
                                                         </div>
                                                         <?php echo st()->load_template( 'layouts/modern/hotel/elements/search/guest', '' ); ?>
-                                                        <div class="item field-guest form-group form-extra-field">
-                                                            <?php echo st()->load_template( 'layouts/modern/hotel/elements/search/guest-name', '' ); ?>
-                                                        </div>
                                                         <?php echo st()->load_template( 'layouts/modern/hotel/elements/search/extra', '' ); ?>
                                                         <div class="submit-group">
-                                                            <button class="btn btn-large btn-full upper font-medium btn_hotel_booking btn-book-ajax"
+                                                            <button class="btn btn-green btn-large btn-full upper font-medium btn_hotel_booking btn-book-ajax"
                                                                    type="submit"
                                                                    name="submit">
                                                                 <?php echo __( 'Book Now', 'traveler' ) ?>
@@ -547,12 +528,11 @@
                                                         <div class="mt30 message-wrapper">
                                                             <?php echo STTemplate::message() ?>
                                                         </div>
-														<div class="message-wrapper-2"></div>
                                                     </form>
                                                 <?php }else{ ?>
                                                     <div class="submit-group mb30">
-                                                        <a href="<?php echo esc_url($room_external_link); ?>" class="btn btn-large btn-full upper"><?php echo esc_html__( 'Explore', 'traveler' ); ?></a>
-                                                        <form id="form-booking-inpage" class="form single-room-form hotel-room-booking-form form-has-guest-name" method="post">
+                                                        <a href="<?php echo esc_url($room_external_link); ?>" class="btn btn-green btn-large btn-full upper"><?php echo esc_html__( 'Book Now', 'traveler' ); ?></a>
+                                                        <form id="form-booking-inpage single-room-form" class="form single-room-form hotel-room-booking-form" method="post">
                                                             <input name="action" value="hotel_add_to_cart" type="hidden">
                                                             <input name="item_id" value="<?php echo esc_attr($hotel_id); ?>" type="hidden">
                                                             <input name="room_id" value="<?php echo esc_attr($room_id); ?>" type="hidden">
@@ -566,12 +546,7 @@
                                         }
                                     }
                                     ?>
-                                    <?php
-                                        $list_badges = get_post_meta(get_the_ID(), 'list_badges', true);
-                                            if(!empty($list_badges)){
-                                                echo st()->load_template('layouts/modern/common/single/badge','', array('list_badges' => $list_badges));
-                                            }
-                                    ?>
+
                                     <div class="owner-info widget-box">
                                         <h4 class="heading"><?php echo __( 'Owner', 'traveler' ) ?></h4>
                                         <div class="media">
@@ -580,14 +555,14 @@
                                                 $author_id = get_post_field( 'post_author', get_the_ID() );
                                                 $userdata  = get_userdata( $author_id );
                                                 ?>
-                                                <a href="<?php echo st_get_author_posts_url(get_the_ID(),70); ?>">
+                                                <a href="<?php echo get_author_posts_url($author_id); ?>">
                                                     <?php
                                                     echo st_get_profile_avatar( $author_id, 60 );
                                                     ?>
                                                 </a>
                                             </div>
                                             <div class="media-body">
-                                                <h4 class="media-heading"><a href="<?php echo st_get_author_posts_url(get_the_ID(),70); ?>" class="author-link"><?php echo TravelHelper::get_username( $author_id ); ?></a></h4>
+                                                <h4 class="media-heading"><a href="<?php echo get_author_posts_url($author_id); ?>" class="author-link"><?php echo TravelHelper::get_username( $author_id ); ?></a></h4>
                                                 <p><?php echo sprintf( __( 'Member Since %s', 'traveler' ), date( 'Y', strtotime( $userdata->user_registered ) ) ) ?></p>
                                             </div>
                                             <?php

@@ -36,7 +36,7 @@ else :
                         <?php
                     } else {
                         ?>
-                        <div class="media-heading"><?php echo esc_html($comment->comment_author); ?></div>
+                        <h4 class="media-heading"><?php echo esc_html($comment->comment_author); ?></h4>
                         <?php
                     }
                     ?>

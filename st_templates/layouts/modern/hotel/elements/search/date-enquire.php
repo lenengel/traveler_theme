@@ -27,9 +27,8 @@ $has_icon = (isset($has_icon))? $has_icon: false;
                 </li>
             </ul>
         </div>
-        <input type="hidden" class="check-in-input" value="<?php echo esc_attr($start) ?>" name="start">
-        <input type="hidden" class="check-out-input" value="<?php echo esc_attr($end) ?>" name="end">
-        <input type="text" class="check-in-out" value="<?php echo esc_attr($date); ?>" name="date">
     </div>
-    
+    <input type="hidden" class="check-in-input" value="<?php echo esc_attr($start) ?>" name="start">
+    <input type="hidden" class="check-out-input" value="<?php echo esc_attr($end) ?>" name="end">
+    <input type="text" class="check-in-out" value="<?php echo esc_attr($date); ?>" name="date">
 </div>

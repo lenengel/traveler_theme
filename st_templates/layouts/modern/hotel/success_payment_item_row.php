@@ -12,14 +12,14 @@
 $order_token_code = STInput::get('order_token_code');
 
 if($order_token_code){
-    $order_code = STOrder::get_order_id_by_token($order_token_code)->post_id;
+    $order_code = STOrder::get_order_id_by_token($order_token_code);
 }
 
 $hotel_id = $key;
 
 $object_id = $key;
 $total = 0;
-$room_id = $data['data']['room_id'];
+$room_id = $data['data']['room_id']; 
 
 $check_in = $data['data']['check_in'];
 
@@ -41,12 +41,12 @@ $currency = get_post_meta($order_code, 'currency', true);
 <?php if(isset($hotel_id) and $hotel_id):?>
 <div class="service-section">
     <div class="service-left">
-        <h3 class="title"><a href="<?php echo esc_url($hotel_link)?>"><?php echo get_the_title($hotel_id); ?></a></h3>
+        <h4 class="title"><a href="<?php echo esc_url($hotel_link)?>"><?php echo get_the_title($hotel_id); ?></a></h4>
         <?php
         $address = get_post_meta($hotel_id,'address',true);
         if($address){
         ?>
-            <p class="address"><?php echo TravelHelper::getNewIcon('Ico_maps', '#666666', '15px', '15px', true); ?> <?php echo esc_html($address); ?></p>
+            <p class="address"><i class="fa fa-map-marker"></i> <?php echo esc_html($address); ?></p>
         <?php } ?>
     </div>
     <div class="service-right">
@@ -88,18 +88,7 @@ $currency = get_post_meta($order_code, 'currency', true);
         </li>
         <?php
         $extras = get_post_meta($order_code, 'extras', true);
-
-		$check_extra = false;
-        if(!empty($extras["value"]) && is_array(array_values($extras["value"]))){
-            foreach(array_values($extras["value"]) as $value_number){
-                if($value_number > 0){
-                    $check_extra = true;
-                    break;
-                }
-            }
-        }
-
-        if($check_extra):
+        if(isset($extras['value']) && is_array($extras['value']) && count($extras['value'])):
         ?>
             <li><span class="label"><?php echo __('Extra:', 'traveler'); ?></span>
                 <span class="value">

@@ -2,11 +2,11 @@
 if (!is_user_logged_in()) {
     ?>
     <li class="topbar-item login-item">
-        <a href="#" class="login" data-toggle="modal" data-target="#st-login-form"><?php echo esc_html__('Login', 'traveler') ?></a>
+        <a href="" class="login" data-toggle="modal" data-target="#st-login-form"><?php echo esc_html__('Login', 'traveler') ?></a>
     </li>
 
     <li class="topbar-item signup-item">
-        <a href="#" class="signup" data-toggle="modal" data-target="#st-register-form"><?php echo esc_html__('Sign Up', 'traveler') ?></a>
+        <a href="" class="signup" data-toggle="modal" data-target="#st-register-form"><?php echo esc_html__('Sign Up', 'traveler') ?></a>
     </li>
     <script>
         jQuery(function ($) {
@@ -140,7 +140,7 @@ if (!is_user_logged_in()) {
             echo st_get_profile_avatar($userdata->ID, 40);
         }
         ?>
-        <a href="#" data-toggle="dropdown" aria-haspopup="true"
+        <a href="javascript: void(0);" data-toggle="dropdown" aria-haspopup="true"
            aria-expanded="false">
                <?php echo __('Hi, ', 'traveler') . TravelHelper::get_username($userdata->ID); ?>
             <i class="fa fa-angle-down"></i>

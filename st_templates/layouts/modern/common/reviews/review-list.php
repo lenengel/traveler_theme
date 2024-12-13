@@ -32,11 +32,11 @@
                         <?php
                         if(!empty($user_id)){
                             ?>
-                            <div class="media-heading"><?php echo TravelHelper::get_username( $user_id ); ?></div>
+                            <h4 class="media-heading"><?php echo TravelHelper::get_username( $user_id ); ?></h4>
                             <?php
                         }else{
                             ?>
-                            <div class="media-heading"><?php echo esc_html($comment->comment_author); ?></div>
+                            <h4 class="media-heading"><?php echo esc_html($comment->comment_author); ?></h4>
                             <?php
                         }
                         ?>
@@ -72,9 +72,9 @@
                 ?>
                 <?php if(isset($post_type) and in_array($post_type, ['st_tours', 'st_activity'])){ ?>
                     <?php if ( $comment_title = get_comment_meta( $comment_id, 'comment_title', true ) ): ?>
-                        <h3 class="h4 title st_tours" <?php if(!$stats) echo 'style="padding-left: 0;"'; ?>>
+                        <h4 class="title st_tours" <?php if(!$stats) echo 'style="padding-left: 0;"'; ?>>
                             <?php echo esc_html(balanceTags( $comment_title )) ?>
-                        </h3>
+                        </h4>
                         <?php
                             if ( $stats ) {
                                 echo '<ul class="review-star">';

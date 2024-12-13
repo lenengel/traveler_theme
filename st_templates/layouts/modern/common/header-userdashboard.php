@@ -16,6 +16,7 @@
         <meta charset="<?php bloginfo( 'charset' ); ?>">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=2, minimum-scale=1">
         <meta name="theme-color" content="<?php echo st()->get_option( 'main_color', '#ED8323' ); ?>"/>
+        <meta name="robots" content="follow"/>
         <?php if ( defined( 'ST_TRAVELER_VERSION' ) ) { ?>
             <meta name="traveler" content="<?php echo esc_attr( ST_TRAVELER_VERSION ) ?>"/>  <?php }; ?>
         <link rel="profile" href="http://gmpg.org/xfn/11">

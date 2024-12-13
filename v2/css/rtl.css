@@ -398,6 +398,3 @@
     right: 0; }
   .rtl #header .header .header-left #st-main-menu .main-menu li.menu-item-has-children .fa {
     left: 15px !important; } }
-
-.rtl #st-content-wrapper .st-availability .st-calendar .daterangepicker .calendar .table-condensed .td-date {
-  float: right; }

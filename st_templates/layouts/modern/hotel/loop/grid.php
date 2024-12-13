@@ -22,10 +22,15 @@ if(isset($slider) and $slider)
 
 <div class="<?php echo esc_attr($class); ?>">
     <div class="item has-matchHeight">
-        <div class="thumb featured-image">
-			<div class="service-tag bestseller">
-                <?php echo STFeatured::get_featured(); ?>
-            </div>
+        <div class="featured-image">
+            <?php
+                $is_featured = get_post_meta( $post_translated, 'is_featured', true );
+                if ( $is_featured == 'on' ) {
+                    ?>
+                    <div class="featured"><?php echo esc_html__( 'Bestseller', 'traveler' ) ?></div>
+                    <?php
+                }
+            ?>
             <?php if (is_user_logged_in()) { ?>
                 <?php $data = STUser_f::get_icon_wishlist(); ?>
                 <div class="service-add-wishlist login <?php echo ($data['status']) ? 'added' : ''; ?>"
@@ -43,13 +48,12 @@ if(isset($slider) and $slider)
                 </a>
             <?php } ?>
             <a href="<?php echo get_the_permalink($post_translated); ?>">
-                <img src="<?php echo wp_get_attachment_image_url( $thumbnail_id, array(450, 417) ); ?>" alt="<?php echo TravelHelper::get_alt_image();?>"
+                <img src="<?php echo wp_get_attachment_image_url( $thumbnail_id, array(450, 417) ); ?>" alt=""
                      class="img-responsive img-full">
             </a>
             <?php echo st()->load_template( 'layouts/modern/common/star', '', [ 'star' => $hotel_star ] ); ?>
-            <?php echo st_get_avatar_in_list_service(get_the_ID(),70)?>
         </div>
-        <h3 class="title"><a href="<?php echo get_the_permalink($post_translated) ?>" class="st-link c-main"><?php echo get_the_title($post_translated) ?></a></h3>
+        <h4 class="title"><a href="<?php echo get_the_permalink($post_translated) ?>" class="st-link c-main"><?php echo get_the_title($post_translated) ?></a></h4>
         <?php
             if ( $address ) {
                 ?>
@@ -63,7 +67,7 @@ if(isset($slider) and $slider)
                     /5 <?php echo TravelHelper::get_rate_review_text( $review_rate, $count_review ); ?>
                 </span>
                 <span class="summary">
-                    <?php comments_number( __( 'No Review', 'traveler' ), __( '1 Review', 'traveler' ), get_comments_number() . ' ' . __( 'Reviews', 'traveler' ) ); ?>
+                    <?php comments_number( __( 'No Review', 'traveler' ), __( '1 Review', 'traveler' ), '% ' . __( 'Reviews', 'traveler' ) ); ?>
                 </span>
             </div>
             <div class="price-wrapper">

@@ -20,7 +20,7 @@ $data = STUser_f::get_icon_wishlist();
         <div class="lds-dual-ring"></div>
     </div>
 <?php }else{ ?>
-    <a href="#" class="login" data-toggle="modal" data-target="#st-login-form">
+    <a href="" class="login" data-toggle="modal" data-target="#st-login-form">
         <div class="service-add-wishlist" title="<?php echo __('Add to wishlist', 'traveler'); ?>">
             <i class="fa fa-heart"></i>
             <div class="lds-dual-ring"></div>

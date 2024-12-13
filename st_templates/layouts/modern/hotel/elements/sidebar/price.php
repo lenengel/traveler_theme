@@ -28,7 +28,7 @@ if ($rate_change) {
 ?>
 <div class="sidebar-item range-slider">
     <div class="item-title">
-        <label><?php echo esc_attr($title); ?></label>
+        <h4><?php echo esc_attr($title); ?></h4>
         <i class="fa fa-angle-up" aria-hidden="true"></i>
     </div>
     <div class="item-content">

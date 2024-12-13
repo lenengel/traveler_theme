@@ -22,7 +22,7 @@ $all_fields=json_decode($st_search_fields);
 ?>
 <aside class="booking-filters <?php if($style=='dark') echo 'text-white'; else echo 'booking-filters-white';?> hotel-filters">
     <h3><?php echo apply_filters( 'widget_title' , $title)?></h3>
-    <form action="#" method="get">
+    <form action="" method="get">
     <ul class="list booking-filters-list">
         <?php
         if(!empty($all_fields)and is_array($all_fields)):

@@ -38,7 +38,7 @@ if(!isset($format))
             </div>
         </div>
     <?php } ?>
-    <h3 class="sidebar-title"><?php echo __('FILTER BY', 'traveler'); ?> <span class="d-md-none hidden-lg hidden-md close-filter"><?php echo TravelHelper::getNewIcon('Ico_close', '#A0A9B2', '20px', '20px'); ?></span></h3>
+    <h3 class="sidebar-title"><?php echo __('FILTER BY', 'traveler'); ?> <span class="hidden-lg hidden-md close-filter"><?php echo TravelHelper::getNewIcon('Ico_close', '#A0A9B2', '20px', '20px'); ?></span></h3>
 
     <?php
         if(!empty($filters)){

@@ -3,13 +3,13 @@ global $post;
 if(!isset($show_map))
     $show_map = 'yes';
 
-$class = 'col-lg-6 col-md-6 col-sm-4 col-xs-12 item-service grid-item';
+$class = 'col-lg-6 col-md-6 col-sm-4 col-xs-12 item-service';
 if($show_map == 'no'){
-    $class = 'col-lg-3 col-md-3 col-sm-4 col-xs-12 item-service grid-item';
+    $class = 'col-lg-3 col-md-3 col-sm-4 col-xs-12 item-service';
 }
 $post_id = get_the_ID();
 $post_translated = TravelHelper::post_translated($post_id);
-$url=st_get_link_with_search(get_permalink($post_translated),array('start','end','date','adult_number','child_number', 'room_num_search'),$_GET);
+$url=st_get_link_with_search(get_permalink($post_translated),array('start','end','date','adult_number','child_number'),$_GET);
 ?>
 <div class="<?php echo esc_attr($class); ?>">
     <div class="has-matchHeight">
@@ -60,7 +60,6 @@ $url=st_get_link_with_search(get_permalink($post_translated),array('start','end'
                 ?>
             </ul>
         <?php endif; ?>
-        <?php echo st_get_avatar_in_list_service(get_the_ID(),70)?>
     </div>
     <h4 class="service-title"><a href="<?php echo esc_url($url); ?>"><?php echo get_the_title($post_translated); ?></a></h4>
     <?php if ($address = get_post_meta($post_translated, 'address', TRUE)): ?>

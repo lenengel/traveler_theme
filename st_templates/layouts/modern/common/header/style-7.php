@@ -29,8 +29,6 @@
                                         $target = '';
                                         if (!empty($val['topbar_custom_link_target']) && $val['topbar_custom_link_target'] == 'on') {
                                             $target = '_blank';
-                                        }else {
-                                            $target = '_self';
                                         }
                                         $icon = esc_html($val['topbar_custom_link_icon']);
                                         if (!empty($val['topbar_item']) && $val['topbar_position'] == 'left' && isset($val['topbar_is_social']) && $val['topbar_is_social'] == 'on') {
@@ -42,18 +40,9 @@
                             </ul>
                             <ul class="st-list topbar-items">
                                 <?php
-                                foreach ( $sort_topbar_menu as $key => $val ) {
-                                    if ( !empty( $val[ 'topbar_item' ] ) && $val[ 'topbar_position' ] == 'left' && (empty( $val[ 'topbar_is_social' ] ) || $val[ 'topbar_is_social' ] == 'off') ) {
-                                        if ($val['topbar_item'] == 'search') {
-                                            echo st()->load_template('layouts/modern/common/header/topbar-items/search', '');
-                                        } elseif ( $val[ 'topbar_item' ] == 'currency' ) {
-                                            echo st()->load_template( 'layouts/modern/common/header/topbar-items/currency', '' );
-                                        } elseif ( $val[ 'topbar_item' ] == 'language' ) {
-                                            echo st()->load_template( 'layouts/modern/common/header/topbar-items/language', '' );
-                                        }else {
-                                            echo '<li class="hidden-xs hidden-sm"><a href="' . esc_url( $val[ 'topbar_custom_link' ] ) . '" target="' . esc_attr($target) . '">' . esc_html( $val[ 'topbar_custom_link_title' ] ) . '</a></li>';
-                                        }
-                                        
+                                foreach ($sort_topbar_menu as $key => $val) {
+                                    if (!empty($val['topbar_item']) && $val['topbar_position'] == 'left' && (empty($val['topbar_is_social']) || $val['topbar_is_social'] == 'off')) {
+                                        echo '<li class="hidden-xs hidden-sm"><a href="' . esc_url($val['topbar_custom_link']) . '" target="' . esc_attr($target) . '">' . esc_html($val['topbar_custom_link_title']) . '</a></li>';
                                     }
                                 }
                                 ?>
@@ -63,24 +52,6 @@
                     }
                     ?>
                     <div class="topbar-right">
-                        <ul class="st-list socials">
-                            <li>
-                                <?php
-                                foreach ( $sort_topbar_menu as $key => $val ) {
-                                    $target = '';
-                                    if ( !empty( $val[ 'topbar_custom_link_target' ] ) && $val[ 'topbar_custom_link_target' ] == 'on' ) {
-                                        $target = '_blank';
-                                    }else {
-                                        $target = '_self';
-                                    }
-                                    $icon = esc_html( $val[ 'topbar_custom_link_icon' ] );
-                                    if ( !empty( $val[ 'topbar_item' ] ) && $val[ 'topbar_position' ] == 'right' && isset( $val[ 'topbar_is_social' ] ) && $val[ 'topbar_is_social' ] == 'on' ) {
-                                        echo '<a href="' . esc_url( $val[ 'topbar_custom_link' ] ) . '" target="' . esc_attr($target) . '"><i class="' . esc_attr($icon) . '"></i></a>';
-                                    }
-                                }
-                                ?>
-                            </li>
-                        </ul>
                         <ul class="st-list topbar-items">
                             <?php
                             foreach ($sort_topbar_menu as $key => $val) {
@@ -94,7 +65,7 @@
                                     if ($val['topbar_item'] == 'language') {
                                         echo st()->load_template('layouts/modern/common/header/topbar-items/language', '');
                                     }
-                                    if ($val['topbar_item'] == 'link' && (empty( $val[ 'topbar_is_social' ] ) || $val[ 'topbar_is_social' ] == 'off') ) {
+                                    if ($val['topbar_item'] == 'link') {
                                         $topbar_custom_class = isset($val['topbar_custom_class']) ? $val['topbar_custom_class'] : ''; ?>
                                         <li class="topbar-item link-item <?php echo esc_attr($topbar_custom_class); ?>">
                                             <a href="<?php echo esc_url($val['topbar_custom_link']); ?>"
@@ -127,11 +98,8 @@
                     <img src="<?php echo esc_url($logo_mobile_url); ?>"
                          alt="<?php echo get_bloginfo('description'); ?>">
                 </a>
-                <?php if (is_front_page()) : ?>
-                    <h1 class="tag_h1  hidden-lg hidden-md hidden-sm hidden-xs"><?php bloginfo( 'name' ); ?></h1>
-                <?php endif; ?>
                 <nav id="st-main-menu">
-                    <a href="#" class="back-menu"><i class="fa fa-angle-left"></i></a>
+                    <a href="" class="back-menu"><i class="fa fa-angle-left"></i></a>
                     <?php
                     if (has_nav_menu('primary')) {
                         $mega_menu = st()->get_option('allow_megamenu', 'off');
@@ -143,13 +111,7 @@
                                 'depth' => 10,
                                 'walker' => new ST_Mega_Menu_Walker_New(),
                             )); ?>
-                            <?php if(!is_user_logged_in()){ ?>
-                                <div class="advance-menu">
-                                    <a  href="#" class="login" data-toggle="modal" data-target="#st-login-form"><?php echo esc_html__('Login','traveler') ?></a>
 
-                                    <a href="#" class="signup" data-toggle="modal" data-target="#st-register-form"><?php echo esc_html__('Sign Up','traveler') ?></a>
-                                </div>
-                            <?php } ?>
                        <?php } else {
                             wp_nav_menu([
                                 'theme_location' => 'primary',
@@ -160,9 +122,9 @@
                             ?>
                             <?php if(!is_user_logged_in()){ ?>
                                 <div class="advance-menu">
-                                    <a  href="#" class="login" data-toggle="modal" data-target="#st-login-form"><?php echo esc_html__('Login','traveler') ?></a>
+                                    <a  href="" class="login" data-toggle="modal" data-target="#st-login-form"><?php echo esc_html__('Login','traveler') ?></a>
 
-                                    <a href="#" class="signup" data-toggle="modal" data-target="#st-register-form"><?php echo esc_html__('Sign Up','traveler') ?></a>
+                                    <a href="" class="signup" data-toggle="modal" data-target="#st-register-form"><?php echo esc_html__('Sign Up','traveler') ?></a>
                                 </div>
                             <?php } ?>
                        <?php }
@@ -200,7 +162,10 @@
                                     echo st()->load_template('layouts/modern/common/header/topbar-items/cart', '');
                                 }
                                 if ($val['header_item'] == 'search') {
-                                    echo st()->load_template('layouts/modern/common/header/topbar-items/search', '');
+                                    $search_header_onoff = st()->get_option('search_header_onoff', 'on');
+                                    if ($search_header_onoff == 'on'):
+                                        echo st()->load_template('layouts/modern/common/header/topbar-items/search', '');
+                                    endif;
                                 }
                             }
                         }

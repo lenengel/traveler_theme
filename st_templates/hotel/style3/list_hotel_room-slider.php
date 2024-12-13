@@ -31,7 +31,7 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-8 mt10">
-					<h3 class="title"><a href="<?php echo get_the_permalink(); ?>" target="_blank"><?php echo get_the_title(); ?></a></h3>
+					<h4 class="title"><a href="<?php echo get_the_permalink(); ?>" target="_blank"><?php echo get_the_title(); ?></a></h4>
 				</div>
 				<div class="col-xs-12 col-sm-4 mt10">
 				<?php

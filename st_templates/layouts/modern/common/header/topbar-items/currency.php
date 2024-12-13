@@ -3,7 +3,7 @@
     $current_currency = TravelHelper::get_current_currency();
 ?>
 <li class="dropdown dropdown-currency hidden-xs hidden-sm">
-    <a href="#" data-toggle="dropdown" aria-haspopup="true"
+    <a href="" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
         <?php
             if ( isset( $current_currency[ 'name' ] ) ) {

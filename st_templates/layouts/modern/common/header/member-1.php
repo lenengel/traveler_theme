@@ -28,8 +28,6 @@
                                         $target = '';
                                         if ( !empty( $val[ 'topbar_custom_link_target' ] ) && $val[ 'topbar_custom_link_target' ] == 'on' ) {
                                             $target = '_blank';
-                                        }else {
-                                            $target = '_self';
                                         }
                                         $icon = esc_html( $val[ 'topbar_custom_link_icon' ] );
                                         if ( !empty( $val[ 'topbar_item' ] ) && $val[ 'topbar_position' ] == 'left' && isset( $val[ 'topbar_is_social' ] ) && $val[ 'topbar_is_social' ] == 'on' ) {
@@ -98,7 +96,7 @@
                 <img src="<?php echo esc_url( $logo_mobile_url ); ?>" alt="<?php echo get_bloginfo( 'description' ); ?>">
             </a>
             <nav id="st-main-menu">
-                <a href="#" class="back-menu"><i class="fa fa-angle-left"></i></a>
+                <a href="" class="back-menu"><i class="fa fa-angle-left"></i></a>
                 <?php
                     if ( has_nav_menu( 'primary' ) ) {
                         $mega_menu = st()->get_option('allow_megamenu', 'off');
@@ -151,7 +149,10 @@
                             echo st()->load_template( 'layouts/modern/common/header/topbar-items/cart', '' );
                         }
                         if( $val['header_item'] == 'search' ){
-                            echo st()->load_template( 'layouts/modern/common/header/topbar-items/search', '' );
+                            $search_header_onoff = st()->get_option('search_header_onoff', 'on');
+                            if($search_header_onoff == 'on'):
+                                echo st()->load_template( 'layouts/modern/common/header/topbar-items/search', '' );
+                            endif;
                         }
                     }
                 }
