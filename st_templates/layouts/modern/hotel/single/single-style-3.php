@@ -1009,7 +1009,7 @@
 								serialNo: "7801-4403-8613",
 								localeId: 2,
 								categories: "all",
-								startDate: "2021-08-15",
+								startDate: "default",
 								showForm: true
 							});
 						} else{setTimeout(ebAvailabilityLoadedCheck, 200);}

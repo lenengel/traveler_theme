@@ -245,79 +245,7 @@
                                     <div class="close-icon hide">
                                         <?php echo TravelHelper::getNewIcon( 'Ico_close' ); ?>
                                     </div>
-
-                                    <?php
-                                    if($booking_type == 'instant_enquire'){
-                                        ?>
-                                        <div class="form-book-wrapper">
-                                            <?php echo st()->load_template( 'layouts/modern/common/loader' ); ?>
-                                            <div class="form-head" style="text-align: center;">
-												Noch wenige Klicks zur Erholung...
-                                            </div>
-                                            
-                                            <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                                                <div class="tab-pane fade in active" id="nav-book" role="tabpanel" aria-labelledby="nav-book-tab">
-                                                    <?php if(empty($room_external) || $room_external == 'off'){ ?>
-                                                        <form id="single-room-form" class="form single-room-form hotel-room-booking-form" method="post">
-                                                            <input name="action" value="hotel_add_to_cart" type="hidden">
-                                                            <input name="item_id" value="<?php echo esc_attr($hotel_id); ?>" type="hidden">
-                                                            <input name="room_id" value="<?php echo esc_attr($room_id); ?>" type="hidden">
-                                                            <?php wp_nonce_field( 'room_search', 'room_search' ) ?>
-                                                            <?php
-                                                            $current_calendar = TravelHelper::get_current_available_calendar(get_the_ID());
-                                                            
-
-                                                            $has_icon       = ( isset( $has_icon ) ) ? $has_icon : false;
-                                                            $booking_period = intval( get_post_meta( $hotel_id, 'hotel_booking_period', true ) );
-                                                            ?>               
-                                                            <?php echo st()->load_template( 'layouts/modern/hotel/elements/search/guest', '' ); ?>
-                                                            <?php echo st()->load_template( 'layouts/modern/hotel/elements/search/extra', '' ); ?>
-                                                            <div class="submit-group">
-                                                                <button class="btn btn-green btn-large btn-full upper font-medium btn_hotel_booking btn-book-ajax"
-                                                                       type="submit"
-                                                                       name="submit"
-                                                                       value="">
-                                                                    <?php echo __( 'Book Now', 'traveler' ) ?>
-                                                                    <i class="fa fa-spinner fa-spin hide"></i>
-                                                                </button>
-                                                                <input style="display:none;" type="submit" class="btn btn-default btn-send-message" data-id="<?php echo get_the_ID();?>" name="st_send_message" value="<?php echo __('Send message', 'traveler');?>">
-                                                            </div>
-                                                            <div class="mt30 message-wrapper">
-                                                                <?php echo STTemplate::message() ?>
-                                                            </div>
-                                                        </form>
-                                                    <?php }else{ ?>
-                                                        <div class="submit-group mb30">
-                                                            <a target="_blank" href="<?php echo esc_url($room_external_link); ?>" class="btn btn-green btn-large btn-full upper"><?php echo esc_html__( 'Book Now', 'traveler' ); ?></a>
-                                                        </div>
-                                                    <?php } ?>
-                                                </div>
-                                                
-                                            </div>
-
-                                        </div>
-                                        <?php
-                                    }else{
-                                        if($booking_type == 'enquire'){
-                                            ?>
-                                            <div class="form-book-wrapper">
-                                                <?php echo st()->load_template( 'layouts/modern/common/loader' ); ?>
-                                                <div class="form-head">
-                                                    Noch wenige Klicks zur Erholung ...
-                                                </div>
-                                                <h4 class="title-enquiry-form"><?php echo esc_html__('Inquiry', 'traveler'); ?></h4>
-                                                <?php echo st()->load_template( 'email/email_single_service' ); ?>
-                                                <form id="form-booking-inpage single-room-form" class="form single-room-form hotel-room-booking-form" method="post">
-                                                    <input name="action" value="hotel_add_to_cart" type="hidden">
-                                                    <input name="item_id" value="<?php echo esc_attr($hotel_id); ?>" type="hidden">
-                                                    <input name="room_id" value="<?php echo esc_attr($room_id); ?>" type="hidden">
-                                                    <?php wp_nonce_field( 'room_search', 'room_search' ) ?>
-                                                    <input style="display:none;" type="submit" class="btn btn-default btn-send-message" data-id="<?php echo get_the_ID();?>" name="st_send_message" value="<?php echo __('Send message', 'traveler');?>">
-                                                </form>
-                                            </div>
-                                            <?php
-                                        }else{
-                                            ?>
+                                   
                                             <div class="form-book-wrapper">
                                                 <?php echo st()->load_template( 'layouts/modern/common/loader' ); ?>
                                                 <div class="form-head">
@@ -330,10 +258,6 @@
 														<!-- Button trigger modal -->														
 												</div>
                                             </div>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
 
 
                                     
@@ -410,7 +334,7 @@
 								serialNo: "7801-4403-8613",
 								localeId: 2,
 								categories: "all",
-								startDate: "2021-08-15",
+								startDate: "default",
 								showForm: true
 							});
 						} else{setTimeout(ebAvailabilityLoadedCheck, 200);}
