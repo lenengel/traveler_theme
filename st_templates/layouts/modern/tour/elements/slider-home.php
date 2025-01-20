@@ -35,14 +35,6 @@ if (!empty($all_slider) || is_array($all_slider)) {
                             <div class="container">
                                 <div class="st-heading-tour tour-text"><?php echo esc_attr(!empty($val['title_slider']) ? $val['title_slider'] : ''); ?></div>
                                 <h2 class="sub-heading-tour tour-text"><?php echo esc_attr(!empty($val['content_slider']) ? $val['content_slider'] : '' ); ?></h2>
-                                <?php if (!empty($st_link['title'])) {
-                                    ?>
-                                    <a href="<?php echo esc_url($st_link['url']) ?>"><span
-                                                class="st-link"><?php echo esc_html( !empty($st_link['title']) ? $st_link['title'] : '') ?></span></a>
-                                <?php } else { ?>
-                                    <a href="<?php echo esc_url($st_link['url']) ?>"><span
-                                                class="st-link"><?php echo esc_html__('explorer', 'traveler') ?></span></a>
-                                <?php } ?>
                             </div>
                         </div>
                     </div>
